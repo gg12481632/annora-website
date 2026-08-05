@@ -865,3 +865,10 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\scripts\run-local.ps1
 
 http://localhost:8081/create.html
+
+New-Item `
+    .\src\Annora.Web\listing.html `
+    -ItemType File `
+    -Force
+
+

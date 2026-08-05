@@ -1,0 +1,158 @@
+.listing-page {
+    width: min(100% - 2rem, 1150px);
+    margin: 0 auto;
+    padding: 2rem 0 6rem;
+}
+
+.breadcrumb {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+    color: var(--muted);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+}
+
+.state-panel {
+    padding: 3rem 2rem;
+    border: 1px solid var(--border);
+    border-radius: 0.9rem;
+    background: var(--surface);
+    text-align: center;
+}
+
+.error-state {
+    border-color: #d5a5a5;
+    color: #7d2424;
+    background: #fff5f5;
+}
+
+.listing-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+    gap: 2rem;
+    align-items: start;
+}
+
+.listing-gallery,
+.listing-information {
+    border: 1px solid var(--border);
+    border-radius: 0.9rem;
+    background: var(--surface);
+    overflow: hidden;
+}
+
+.main-image-placeholder {
+    display: grid;
+    place-items: center;
+    min-height: 500px;
+    color: var(--muted);
+    background:
+        linear-gradient(
+            135deg,
+            #edf3ef,
+            #dfeae3
+        );
+    font-weight: 700;
+}
+
+.listing-information {
+    padding: 2rem;
+}
+
+.listing-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.category {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.listing-information h1 {
+    margin: 1rem 0 0;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    line-height: 1.08;
+}
+
+.price {
+    margin: 1.25rem 0;
+    color: var(--primary-dark);
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.listing-facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 0;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.listing-facts div {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.listing-facts dt {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.listing-facts dd {
+    margin: 0;
+    font-weight: 700;
+}
+
+.description-section {
+    padding: 1.5rem 0;
+}
+
+.description-section h2,
+.contact-panel h2 {
+    margin-top: 0;
+}
+
+.description-section p {
+    white-space: pre-wrap;
+}
+
+.contact-panel {
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    background: #f1f6f3;
+}
+
+.contact-panel .button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+@media (max-width: 850px) {
+    .listing-detail {
+        grid-template-columns: 1fr;
+    }
+
+    .main-image-placeholder {
+        min-height: 350px;
+    }
+}
+
+@media (max-width: 550px) {
+    .listing-information {
+        padding: 1.25rem;
+    }
+
+    .listing-facts {
+        grid-template-columns: 1fr;
+    }
+}

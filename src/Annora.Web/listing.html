@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="description"
+        content="Se annonce på Annora."
+    >
+
+    <title>Annonce – Annora</title>
+
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/listing.css">
+
+    <script src="js/site.js" defer></script>
+    <script type="module" src="js/listing.js"></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <a class="logo" href="index.html">Annora</a>
+
+        <nav aria-label="Hovednavigation">
+            <a href="index.html">Forside</a>
+            <a href="listings.html">Annoncer</a>
+            <a href="create.html">Opret annonce</a>
+        </nav>
+    </header>
+
+    <main class="listing-page">
+        <nav class="breadcrumb" aria-label="Brødkrummer">
+            <a href="listings.html">Annoncer</a>
+            <span aria-hidden="true">/</span>
+            <span id="breadcrumb-title">Annonce</span>
+        </nav>
+
+        <section id="loading-state" class="state-panel">
+            <p>Henter annoncen…</p>
+        </section>
+
+        <section id="error-state" class="state-panel error-state" hidden>
+            <h1>Annoncen kunne ikke vises</h1>
+            <p id="error-message"></p>
+
+            <a class="button" href="listings.html">
+                Tilbage til annoncer
+            </a>
+        </section>
+
+        <article id="listing-content" class="listing-detail" hidden>
+            <section class="listing-gallery">
+                <div class="main-image-placeholder">
+                    <span>Intet billede endnu</span>
+                </div>
+            </section>
+
+            <section class="listing-information">
+                <div class="listing-meta">
+                    <span id="category" class="category"></span>
+                    <time id="created-at"></time>
+                </div>
+
+                <h1 id="title"></h1>
+
+                <p id="price" class="price"></p>
+
+                <dl class="listing-facts">
+                    <div>
+                        <dt>Stand</dt>
+                        <dd id="condition"></dd>
+                    </div>
+
+                    <div>
+                        <dt>Placering</dt>
+                        <dd id="location"></dd>
+                    </div>
+                </dl>
+
+                <section class="description-section">
+                    <h2>Beskrivelse</h2>
+                    <p id="description"></p>
+                </section>
+
+                <section class="contact-panel">
+                    <h2>Interesseret?</h2>
+
+                    <p>
+                        Kontaktfunktion og login tilføjes i en senere
+                        iteration.
+                    </p>
+
+                    <button class="button" type="button" disabled>
+                        Kontakt sælger
+                    </button>
+                </section>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="year"></span> Annora</p>
+    </footer>
+</body>
+</html>
