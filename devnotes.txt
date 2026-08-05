@@ -381,5 +381,134 @@ For detailed output, run func with --verbose flag.
 [2026-08-05T11:09:15.827Z] [Tag=''] Process reporting unhealthy: Unhealthy. Health check entries are {"azure.functions.web_host.lifecycle":{"status":"Healthy","description":null},"azure.functions.script_host.lifecycle":{"status":"Healthy","description":null},"azure.functions.webjobs.storage":{"status":"Unhealthy","description":"Unable to access AzureWebJobsStorage","errorCode":null}}
 [2026-08-05T11:09:38.598Z] [Tag=''] Process reporting unhealthy: Unhealthy. Health check entries are {"azure.functions.web_host.lifecycle":{"status":"Healthy","description":null},"azure.functions.script_host.lifecycle":{"status":"Healthy","description":null},"azure.functions.webjobs.storage":{"status":"Unhealthy","description":"Unable to access AzureWebJobsStorage","errorCode":null}}
 
+FROM OTHER POWERSHELL
+
+PS C:\Windows\System32\WindowsPowerShell\v1.0> Invoke-RestMethod `
+>>     -Uri "http://localhost:7071/api/CreateListing" `
+>>     -Method Post `
+>>     -ContentType "application/json" `
+>>     -Body '{}'
+Welcome to Azure Functions!
+PS C:\Windows\System32\WindowsPowerShell\v1.0>
+
+
+
+$listing = @{
+    title       = "Stressless lænestol i sort læder"
+    category    = "furniture"
+    description = "Velholdt Stressless lænestol med sort læder og fodskammel."
+    price       = 2500
+    condition   = "good"
+
+    location = @{
+        postalCode = "2791"
+        city       = "Dragør"
+    }
+
+    seller = @{
+        email = "kontakt@annora.dk"
+    }
+
+    images = @()
+} | ConvertTo-Json -Depth 5
+
+
+
+Invoke-RestMethod `
+    -Uri "http://localhost:7071/api/listings" `
+    -Method Post `
+    -ContentType "application/json; charset=utf-8" `
+    -Body $listing
+	
+==================================================================
+
+az bicep build `
+    --file .\infra\bicep\storage.bicep
+	
+### 6. Validér deploymenten	
+
+az deployment group validate `
+    --name "validate-annora-storage" `
+    --resource-group $resourceGroup `
+    --template-file .\infra\bicep\storage.bicep `
+    --parameters `
+        environmentName=$environmentName `
+        location=$location
+	
+### 7. Se ændringerne med what-if
+
+az deployment group what-if `
+    --name "whatif-annora-storage" `
+    --resource-group $resourceGroup `
+    --template-file .\infra\bicep\storage.bicep `
+    --parameters `
+        environmentName=$environmentName `
+        location=$location
+		
+
+=>
+en lang smørre
++
+Resource changes: 6 to create, 1 to ignore.
+
+### 8. Deploy infrastrukturen
+$deploymentName = "annora-storage-$(
+    Get-Date -Format 'yyyyMMdd-HHmmss'
+)"
+
+az deployment group create `
+    --name $deploymentName `
+    --resource-group $resourceGroup `
+    --template-file .\infra\bicep\storage.bicep `
+    --parameters `
+        environmentName=$environmentName `
+        location=$location `
+    --output table
+
+	$deploymentName = "annora-storage-$(
+    Get-Date -Format 'yyyyMMdd-HHmmss'
+)"
+
+=>
+Name                            ResourceGroup           State      Timestamp                         Mode
+------------------------------  ----------------------  ---------  --------------------------------  -----------
+annora-storage-20260805-142947  rg-annora-website-prod  Succeeded  2026-08-05T12:30:16.264906+00:00  Incremental
+PS C:\Research\AnnoraWebsite>
+
+### 9. Hent outputs	
+
+az deployment group show `
+    --name $deploymentName `
+    --resource-group $resourceGroup `
+    --query "properties.outputs" `
+    --output json
+=>
+{
+  "blobEndpoint": {
+    "type": "String",
+    "value": "https://stannoradevfx5lqc.blob.core.windows.net/"
+  },
+  "listingsTableName": {
+    "type": "String",
+    "value": "Listings"
+  },
+  "storageAccountId": {
+    "type": "String",
+    "value": "/subscriptions/a24620e6-3f42-4f4b-9dd7-9f575b3ff8e9/resourceGroups/rg-annora-website-prod/providers/Microsoft.Storage/storageAccounts/stannoradevfx5lqc"
+  },
+  "storageAccountName": {
+    "type": "String",
+    "value": "stannoradevfx5lqc"
+  },
+  "tableEndpoint": {
+    "type": "String",
+    "value": "https://stannoradevfx5lqc.table.core.windows.net/"
+  }
+}
+PS C:\Research\AnnoraWebsite>
+
+	
+	
+
 
 
