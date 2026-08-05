@@ -70,4 +70,27 @@ public sealed class TableListingRepository : IListingRepository
             .OrderByDescending(listing => listing.CreatedAt)
             .ToArray();
     }
+
+    public async Task<Listing?> GetByIdAsync(
+        Guid id,
+        CancellationToken cancellationToken = default)
+    {
+        await _tableClient.CreateIfNotExistsAsync(
+            cancellationToken);
+
+        var rowKey = id.ToString("N");
+
+        var response =
+            await _tableClient.GetEntityIfExistsAsync<ListingTableEntity>(
+                partitionKey: "listing",
+                rowKey: rowKey,
+                cancellationToken: cancellationToken);
+
+        if (!response.HasValue)
+        {
+            return null;
+        }
+
+        return response.Value.ToDomain();
+    }
 }

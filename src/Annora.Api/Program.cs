@@ -26,5 +26,6 @@ builder.Services.AddSingleton<
 
 builder.Services.AddScoped<CreateListingHandler>();
 builder.Services.AddScoped<GetListingsHandler>();
+builder.Services.AddScoped<GetListingByIdHandler>();
 
 builder.Build().Run();

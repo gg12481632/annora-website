@@ -10,4 +10,8 @@ public interface IListingRepository
 
     Task<IReadOnlyCollection<Listing>> GetAllAsync(
         CancellationToken cancellationToken = default);
+
+    Task<Listing?> GetByIdAsync(
+        Guid id,
+        CancellationToken cancellationToken = default);
 }
