@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Annora icon</title>
+  <desc id="desc">A dark navy circular lowercase a-like mark combined with a coral price tag.</desc>
+  <path fill="#071B33" d="M260 74c-101 0-183 82-183 183s82 183 183 183c42 0 81-14 112-38 9-7 10-20 2-28l-34-34c-7-7-18-8-27-3-16 10-34 15-53 15-52 0-95-43-95-95s43-95 95-95 95 43 95 95v23c0 11 9 20 20 20h50c11 0 20-9 20-20v-23c0-101-82-183-185-183z"/>
+  <path fill="#071B33" d="M336 270h64c7 0 13 3 18 8l67 67c9 9 9 24 0 33l-64 64c-9 9-24 9-33 0l-67-67c-5-5-8-11-8-18v-64c0-13 10-23 23-23z" transform="rotate(-2 399 356)"/>
+  <circle cx="371" cy="318" r="14" fill="#FFFFFF"/>
+</svg>

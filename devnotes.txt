@@ -1,0 +1,287 @@
+winget install --id GitHub.cli
+
+
+git@github.com:gg12481632/my-wife-gallery.git
+
+PS C:\Research
+
+mkdir AnnoraWebsite
+cd AnnoraWebsite
+
+mkdir css
+mkdir js
+mkdir images
+
+New-Item index.html
+New-Item css\site.css
+New-Item js\site.js
+
+# plus add content
+
+
+& $git init
+& $git add .
+& $git commit -m "Create initial Annora website"
+& $git branch -M main
+
+
+
+$gitPath = "C:\Program Files\Git\cmd"
+$userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+
+if (($userPath -split ';') -notcontains $gitPath) {
+    [Environment]::SetEnvironmentVariable(
+        "Path",
+        "$userPath;$gitPath",
+        "User"
+    )
+}
+
+git --version
+
+gh repo create annora-website `
+    --public `
+    --source=. `
+    --remote=origin `
+    --push
+	
+
+Get-ChildItem -Force
+
+
+
+git remote add origin https://github.com/gg12481632/annora-website.git
+
+
+$resourceGroup = "rg-annora-website-prod"
+$location = "westeurope"
+$staticWebApp = "swa-annora-prod"
+
+
+gh auth login
+
+Choose:
+GitHub.com
+HTTPS
+Login with a web browser
+
+verify:
+PS C:\Research\AnnoraWebsite> gh auth status
+github.com
+  ✓ Logged in to github.com account gg12481632 (keyring)
+  - Active account: true
+  - Git operations protocol: https
+  - Token: gho_************************************
+  - Token scopes: 'gist', 'read:org', 'repo', 'workflow'
+PS C:\Research\AnnoraWebsite>
+
+
+PS C:\Research\AnnoraWebsite> git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        devnotes.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+PS C:\Research\AnnoraWebsite> git remote -v
+origin  https://github.com/gg12481632/annora-website.git (fetch)
+origin  https://github.com/gg12481632/annora-website.git (push)
+PS C:\Research\AnnoraWebsite>
+
+===================================================================================
+### 1. Sign in and verify the subscription
+
+az login
+
+PS C:\Research\AnnoraWebsite> az login
+The default web browser has been opened at https://login.microsoftonline.com/common/oauth2/authorize. Please continue the login in the web browser. If no web browser is available or if the web browser fails to open, use device code flow with `az login --use-device-code`.
+You have logged in. Now let us find all the subscriptions to which you have access...
+The following tenants require Multi-Factor Authentication (MFA). Use 'az login --tenant TENANT_ID' to explicitly login to a tenant.
+210609a2-0ad1-44b6-b3cb-37c1b30544eb 'Standard-directory'
+No subscriptions found.
+PS C:\Research\AnnoraWebsite> az account show `
+>>     --query "{Name:name, SubscriptionId:id, TenantId:tenantId}" `
+>>     --output table
+Name                                 SubscriptionId                        TenantId
+-----------------------------------  ------------------------------------  ------------------------------------
+Visual Studio Enterprise-abonnement  a24620e6-3f42-4f4b-9dd7-9f575b3ff8e9  210609a2-0ad1-44b6-b3cb-37c1b30544eb
+PS C:\Research\AnnoraWebsite>
+
+### 2. Define the project variables
+
+$resourceGroup = "rg-annora-website-prod"
+$location = "westeurope"
+$staticWebApp = "swa-annora-prod"
+$repository = "https://github.com/gg12481632/annora-website"
+$branch = "main"
+
+### 3. Create the resource group
+az group create `
+    --name $resourceGroup `
+    --location $location `
+    --tags `
+        project=annora `
+        environment=prod `
+        costCenter=learning
+		
+=>
+PS C:\Research\AnnoraWebsite> az group create `
+>>     --name $resourceGroup `
+>>     --location $location `
+>>     --tags `
+>>         project=annora `
+>>         environment=prod `
+>>         costCenter=learning
+{
+  "id": "/subscriptions/a24620e6-3f42-4f4b-9dd7-9f575b3ff8e9/resourceGroups/rg-annora-website-prod",
+  "location": "westeurope",
+  "managedBy": null,
+  "name": "rg-annora-website-prod",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": {
+    "costCenter": "learning",
+    "environment": "prod",
+    "project": "annora"
+  },
+  "type": "Microsoft.Resources/resourceGroups"
+}
+PS C:\Research\AnnoraWebsite>
+
+		
+### 4. Create the Static Web App		
+
+PS C:\Research\AnnoraWebsite> az staticwebapp create `
+>>     --name $staticWebApp `
+>>     --resource-group $resourceGroup `
+>>     --location $location `
+>>     --source $repository `
+>>     --branch $branch `
+>>     --app-location "/" `
+>>     --sku Free `
+>>     --login-with-github
+=>
+Command group 'staticwebapp' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+Please navigate to https://github.com/login/device and enter the user code 0BF0-98B4 to activate and retrieve your github personal access token
+Waiting up to '14' minutes for activation
+# IMPORTANT: ENTER USERCODE AS DESCRIBED
+
+{
+  "branch": "main",
+  "buildProperties": null,
+  "customDomains": [],
+  "defaultHostname": "agreeable-sea-06745e503.7.azurestaticapps.net",
+  "id": "/subscriptions/a24620e6-3f42-4f4b-9dd7-9f575b3ff8e9/resourceGroups/rg-annora-website-prod/providers/Microsoft.Web/staticSites/swa-annora-prod",
+  "kind": null,
+  "location": "West Europe",
+  "name": "swa-annora-prod",
+  "repositoryToken": null,
+  "repositoryUrl": "https://github.com/gg12481632/annora-website",
+  "resourceGroup": "rg-annora-website-prod",
+  "sku": {
+    "capabilities": null,
+    "capacity": null,
+    "family": null,
+    "locations": null,
+    "name": "Free",
+    "size": null,
+    "skuCapacity": null,
+    "tier": "Free"
+  },
+  "systemData": null,
+  "tags": null,
+  "type": "Microsoft.Web/staticSites"
+}
+PS C:\Research\AnnoraWebsite>
+
+### 5. Inspect the created resource
+
+az staticwebapp show `
+    --name $staticWebApp `
+    --resource-group $resourceGroup `
+    --query "{Name:name,Location:location,SKU:sku.name,Repository:repositoryUrl,Branch:branch,Hostname:defaultHostname}" `
+    --output table
+=>
+Name             Location     SKU    Repository                                    Branch    Hostname
+---------------  -----------  -----  --------------------------------------------  --------  ---------------------------------------------
+swa-annora-prod  West Europe  Free   https://github.com/gg12481632/annora-website  main      agreeable-sea-06745e503.7.azurestaticapps.net
+PS C:\Research\AnnoraWebsite>
+
+az staticwebapp show `
+    --name $staticWebApp `
+    --resource-group $resourceGroup `
+    --output json
+=>
+Command group 'staticwebapp' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+{
+  "branch": "main",
+  "buildProperties": null,
+  "customDomains": [],
+  "defaultHostname": "agreeable-sea-06745e503.7.azurestaticapps.net",
+  "id": "/subscriptions/a24620e6-3f42-4f4b-9dd7-9f575b3ff8e9/resourceGroups/rg-annora-website-prod/providers/Microsoft.Web/staticSites/swa-annora-prod",
+  "kind": null,
+  "location": "West Europe",
+  "name": "swa-annora-prod",
+  "repositoryToken": null,
+  "repositoryUrl": "https://github.com/gg12481632/annora-website",
+  "resourceGroup": "rg-annora-website-prod",
+  "sku": {
+    "capabilities": null,
+    "capacity": null,
+    "family": null,
+    "locations": null,
+    "name": "Free",
+    "size": null,
+    "skuCapacity": null,
+    "tier": "Free"
+  },
+  "systemData": null,
+  "tags": null,
+  "type": "Microsoft.Web/staticSites"
+}
+PS C:\Research\AnnoraWebsite>
+
+
+$hostname = az staticwebapp show `
+    --name $staticWebApp `
+    --resource-group $resourceGroup `
+    --query defaultHostname `
+    --output tsv
+
+$hostname
+
+### 6. Check the GitHub deployment
+
+Start-Process "https://$hostname"
+
+
+You can also inspect the workflow runs with GitHub CLI:
+
+PS C:\Research\AnnoraWebsite> gh run list `
+>>     --repo gg12481632/annora-website
+STATUS  TITLE                                        WORKFLOW                     BRANCH  EVENT  ID           ELAPSED  AGE
+✓       ci: add Azure Static Web Apps workflow file  Azure Static Web Apps CI/CD  main    push   30993981921  1m17s    about 9 minutes ago
+PS C:\Research\AnnoraWebsite>
+
+
+### 7. Verify the deployed page from PowerShell
+
+$response = Invoke-WebRequest `
+    -Uri "https://$hostname" `
+    -UseBasicParsing
+
+$response.StatusCode
+$response.Headers["Content-Type"]
+=>
+200
+text/html
+PS C:\Research\AnnoraWebsite>
+
+Clean-up command
+Do not run this now, but this deletes the complete hands-on project later:
+/*az group delete `
+    --name $resourceGroup `
+    --yes*/

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Opret annonce – Annora</title>
+
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/create-listing.css">
+
+    <script src="js/create-listing.js" defer></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <a class="logo" href="index.html">Annora</a>
+
+        <nav aria-label="Hovednavigation">
+            <a href="index.html">Forside</a>
+            <a href="opret-annonce.html" aria-current="page">
+                Opret annonce
+            </a>
+        </nav>
+    </header>
+
+    <main class="form-page">
+        <section class="form-introduction">
+            <p class="eyebrow">Sælg en brugt ting</p>
+            <h1>Opret en annonce</h1>
+
+            <p>
+                Beskriv varen så præcist som muligt. En god titel,
+                en realistisk pris og tydelige billeder gør det lettere
+                at finde en køber.
+            </p>
+        </section>
+
+        <form id="listing-form" class="listing-form">
+            <div class="form-field">
+                <label for="title">Titel</label>
+
+                <input
+                    id="title"
+                    name="title"
+                    type="text"
+                    minlength="5"
+                    maxlength="100"
+                    required
+                >
+
+                <small>Eksempel: Stressless lænestol i sort læder</small>
+            </div>
+
+            <div class="form-field">
+                <label for="category">Kategori</label>
+
+                <select id="category" name="category" required>
+                    <option value="">Vælg kategori</option>
+                    <option value="furniture">Møbler</option>
+                    <option value="electronics">Elektronik</option>
+                    <option value="bicycles">Cykler</option>
+                    <option value="clothing">Tøj</option>
+                    <option value="garden">Have</option>
+                    <option value="other">Andet</option>
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label for="description">Beskrivelse</label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="8"
+                    minlength="20"
+                    maxlength="2000"
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="price">Pris i kroner</label>
+
+                    <input
+                        id="price"
+                        name="price"
+                        type="number"
+                        min="0"
+                        max="1000000"
+                        step="1"
+                        required
+                    >
+                </div>
+
+                <div class="form-field">
+                    <label for="condition">Stand</label>
+
+                    <select id="condition" name="condition" required>
+                        <option value="">Vælg stand</option>
+                        <option value="new">Som ny</option>
+                        <option value="good">God</option>
+                        <option value="used">Brugt</option>
+                        <option value="worn">Slidt</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="postalCode">Postnummer</label>
+
+                    <input
+                        id="postalCode"
+                        name="postalCode"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]{4}"
+                        maxlength="4"
+                        required
+                    >
+                </div>
+
+                <div class="form-field">
+                    <label for="city">By</label>
+
+                    <input
+                        id="city"
+                        name="city"
+                        type="text"
+                        maxlength="100"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label for="email">E-mail</label>
+
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    maxlength="200"
+                    required
+                >
+            </div>
+
+            <div class="form-field">
+                <label for="images">Billeder</label>
+
+                <input
+                    id="images"
+                    name="images"
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    multiple
+                >
+
+                <small>
+                    Billederne gemmes endnu ikke i første iteration.
+                </small>
+            </div>
+
+            <div class="form-actions">
+                <button class="button" type="submit">
+                    Opret annonce
+                </button>
+            </div>
+        </form>
+
+        <section id="result-section" class="result-section" hidden>
+            <h2>Annoncedata</h2>
+
+            <p>
+                I denne første iteration vises dataene kun lokalt.
+            </p>
+
+            <pre id="result"></pre>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="year"></span> Annora</p>
+    </footer>
+</body>
+</html>
