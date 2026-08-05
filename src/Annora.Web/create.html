@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="description"
+        content="Opret en gratis annonce på Annora og giv dine brugte ting et nyt hjem."
+    >
+
+    <title>Opret annonce – Annora</title>
+
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/create.css">
+
+    <script src="js/site.js" defer></script>
+    <script src="js/create.js" defer></script> 
+</head>
+
+<body>
+    <header class="site-header">
+        <a class="logo" href="index.html">
+            Annora
+        </a>
+
+        <nav aria-label="Hovednavigation">
+            <a href="index.html">Forside</a>
+            <a href="listings.html">Annoncer</a>
+            <a href="create.html" aria-current="page">
+                Opret annonce
+            </a>
+        </nav>
+    </header>
+
+    <main class="create-page">
+        <section class="create-introduction">
+            <p class="eyebrow">Sælg det, du ikke længere bruger</p>
+
+            <h1>Opret en ny annonce</h1>
+
+            <p class="introduction-text">
+                Har du noget, der fortjener et nyt hjem?
+                Opret en annonce på under ét minut.
+            </p>
+        </section>
+
+        <form id="listing-form" class="listing-form">
+            <section class="form-section">
+                <div class="section-heading">
+                    <span class="section-number">1</span>
+
+                    <div>
+                        <h2>Fortæl om varen</h2>
+                        <p>Giv annoncen en tydelig titel og kategori.</p>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label for="title">
+                        Titel
+                        <span aria-hidden="true">*</span>
+                    </label>
+
+                    <input
+                        id="title"
+                        name="title"
+                        type="text"
+                        minlength="5"
+                        maxlength="100"
+                        autocomplete="off"
+                        placeholder="Eksempel: Stressless lænestol i sort læder"
+                        required
+                    >
+
+                    <small>
+                        Skriv producent, model og de vigtigste egenskaber.
+                    </small>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="category">
+                            Kategori
+                            <span aria-hidden="true">*</span>
+                        </label>
+
+                        <select
+                            id="category"
+                            name="category"
+                            required
+                        >
+                            <option value="">Vælg kategori</option>
+                            <option value="furniture">Møbler</option>
+                            <option value="electronics">Elektronik</option>
+                            <option value="bicycles">Cykler</option>
+                            <option value="clothing">Tøj</option>
+                            <option value="garden">Have</option>
+                            <option value="tools">Værktøj</option>
+                            <option value="books">Bøger</option>
+                            <option value="other">Andet</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="condition">
+                            Stand
+                            <span aria-hidden="true">*</span>
+                        </label>
+
+                        <select
+                            id="condition"
+                            name="condition"
+                            required
+                        >
+                            <option value="">Vælg stand</option>
+                            <option value="new">Som ny</option>
+                            <option value="good">God</option>
+                            <option value="used">Brugt</option>
+                            <option value="worn">Slidt</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label for="description">
+                        Beskrivelse
+                        <span aria-hidden="true">*</span>
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="8"
+                        minlength="20"
+                        maxlength="2000"
+                        placeholder="Beskriv varens alder, stand, mål og eventuelle fejl eller mangler."
+                        required
+                    ></textarea>
+
+                    <div class="field-information">
+                        <small>
+                            Vær ærlig og præcis. Det giver en bedre handel.
+                        </small>
+
+                        <small>
+                            Maksimalt 2.000 tegn
+                        </small>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="section-heading">
+                    <span class="section-number">2</span>
+
+                    <div>
+                        <h2>Pris og placering</h2>
+                        <p>Angiv din ønskede pris og hvor varen befinder sig.</p>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="price">
+                            Pris
+                            <span aria-hidden="true">*</span>
+                        </label>
+
+                        <div class="input-with-suffix">
+                            <input
+                                id="price"
+                                name="price"
+                                type="number"
+                                min="0"
+                                max="1000000"
+                                step="1"
+                                inputmode="numeric"
+                                placeholder="2500"
+                                required
+                            >
+
+                            <span>DKK</span>
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="postalCode">
+                            Postnummer
+                            <span aria-hidden="true">*</span>
+                        </label>
+
+                        <input
+                            id="postalCode"
+                            name="postalCode"
+                            type="text"
+                            inputmode="numeric"
+                            autocomplete="postal-code"
+                            pattern="[0-9]{4}"
+                            minlength="4"
+                            maxlength="4"
+                            placeholder="2791"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label for="city">
+                        By
+                        <span aria-hidden="true">*</span>
+                    </label>
+
+                    <input
+                        id="city"
+                        name="city"
+                        type="text"
+                        maxlength="100"
+                        autocomplete="address-level2"
+                        placeholder="Dragør"
+                        required
+                    >
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="section-heading">
+                    <span class="section-number">3</span>
+
+                    <div>
+                        <h2>Kontaktoplysninger</h2>
+                        <p>Oplysningerne bruges, når en køber vil kontakte dig.</p>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label for="email">
+                        E-mail
+                        <span aria-hidden="true">*</span>
+                    </label>
+
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        maxlength="200"
+                        autocomplete="email"
+                        placeholder="navn@eksempel.dk"
+                        required
+                    >
+
+                    <small>
+                        Din e-mailadresse bliver ikke vist offentligt.
+                    </small>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="section-heading">
+                    <span class="section-number">4</span>
+
+                    <div>
+                        <h2>Billeder</h2>
+                        <p>Gode billeder øger sandsynligheden for et salg.</p>
+                    </div>
+                </div>
+
+                <label class="image-upload" for="images">
+                    <span class="upload-icon" aria-hidden="true">
+                        +
+                    </span>
+
+                    <strong>Vælg billeder</strong>
+
+                    <span>
+                        JPEG, PNG eller WebP
+                    </span>
+
+                    <input
+                        id="images"
+                        name="images"
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        multiple
+                    >
+                </label>
+
+                <p class="future-feature">
+                    Billeder kan vælges, men uploades først i en senere
+                    iteration.
+                </p>
+            </section>
+
+            <section class="form-footer">
+                <p>
+                    Felter markeret med
+                    <span aria-hidden="true">*</span>
+                    skal udfyldes.
+                </p>
+
+                <button class="button submit-button" type="submit">
+                    Opret annonce
+                </button>
+            </section>
+        </form>
+
+        <section
+            id="result-section"
+            class="result-section"
+            aria-live="polite"
+            hidden
+        >
+            <h2 id="result-heading">Resultat</h2>
+            <p id="result-message"></p>
+            <pre id="result-details"></pre>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            &copy; <span id="year"></span> Annora
+        </p>
+    </footer>
+</body>
+</html>

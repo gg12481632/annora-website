@@ -1,0 +1,228 @@
+.listings-page {
+    width: min(100% - 2rem, 1150px);
+    margin: 0 auto;
+    padding: 4rem 0 6rem;
+}
+
+.listings-introduction {
+    margin-bottom: 2rem;
+}
+
+.heading-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.heading-row h1 {
+    margin: 0;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    line-height: 1.05;
+}
+
+.heading-row p {
+    max-width: 650px;
+    margin: 1rem 0 0;
+    color: var(--muted);
+    font-size: 1.15rem;
+}
+
+.filter-panel {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 0.8rem;
+    background: var(--surface);
+}
+
+.filter-field {
+    display: grid;
+    gap: 0.4rem;
+}
+
+.filter-field label {
+    font-weight: 700;
+}
+
+.filter-field input,
+.filter-field select {
+    width: 100%;
+    padding: 0.75rem 0.85rem;
+    border: 1px solid #aab6af;
+    border-radius: 0.4rem;
+    color: var(--text);
+    background: white;
+    font: inherit;
+}
+
+.filter-field input:focus,
+.filter-field select:focus {
+    border-color: var(--primary);
+    outline: 3px solid rgba(40, 102, 74, 0.18);
+}
+
+.listings-status {
+    min-height: 2rem;
+    color: var(--muted);
+}
+
+.listings-status p {
+    margin: 0 0 1rem;
+}
+
+.listings-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.listing-card {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 0.85rem;
+    background: var(--surface);
+    box-shadow: 0 7px 25px rgba(25, 75, 53, 0.05);
+    transition:
+        transform 140ms ease,
+        box-shadow 140ms ease;
+}
+
+.listing-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 13px 32px rgba(25, 75, 53, 0.1);
+}
+
+.listing-link {
+    display: block;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+.listing-image-placeholder {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    color: var(--muted);
+    background:
+        linear-gradient(
+            135deg,
+            #edf3ef,
+            #dfeae3
+        );
+    font-weight: 700;
+}
+
+.listing-content {
+    display: grid;
+    gap: 0.8rem;
+    padding: 1.25rem;
+}
+
+.listing-meta,
+.listing-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.listing-meta {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.listing-category {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.listing-title {
+    margin: 0;
+    font-size: 1.3rem;
+    line-height: 1.25;
+}
+
+.listing-description {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 0;
+    color: var(--muted);
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.listing-footer {
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+.listing-price {
+    color: var(--primary-dark);
+    font-size: 1.2rem;
+}
+
+.listing-location {
+    color: var(--muted);
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    padding: 4rem 2rem;
+    border: 1px dashed #aab6af;
+    border-radius: 0.8rem;
+    background: var(--surface);
+    text-align: center;
+}
+
+.empty-state h2 {
+    margin-top: 0;
+}
+
+.error-state {
+    grid-column: 1 / -1;
+    padding: 2rem;
+    border: 1px solid #d5a5a5;
+    border-radius: 0.8rem;
+    color: #7d2424;
+    background: #fff5f5;
+}
+
+@media (max-width: 900px) {
+    .listings-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .filter-panel {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .filter-field:first-child {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 650px) {
+    .heading-row {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .heading-row .button {
+        text-align: center;
+    }
+
+    .filter-panel,
+    .listings-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-field:first-child {
+        grid-column: auto;
+    }
+}

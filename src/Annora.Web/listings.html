@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="description"
+        content="Se brugte varer til salg på Annora."
+    >
+
+    <title>Annoncer – Annora</title>
+
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/listings.css">
+
+    <script src="js/site.js" defer></script>
+    <script src="js/listings.js" defer></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <a class="logo" href="index.html">Annora</a>
+
+        <nav aria-label="Hovednavigation">
+            <a href="index.html">Forside</a>
+            <a href="listings.html" aria-current="page">Annoncer</a>
+            <a href="create.html">Opret annonce</a>
+        </nav>
+    </header>
+
+    <main class="listings-page">
+        <section class="listings-introduction">
+            <p class="eyebrow">Brugte ting med mere liv i sig</p>
+
+            <div class="heading-row">
+                <div>
+                    <h1>Annoncer</h1>
+
+                    <p>
+                        Find møbler, elektronik, cykler og andre brugte
+                        ting i dit lokalområde.
+                    </p>
+                </div>
+
+                <a class="button" href="create.html">
+                    Opret annonce
+                </a>
+            </div>
+        </section>
+
+        <section class="filter-panel" aria-label="Filtrering">
+            <div class="filter-field">
+                <label for="search">Søg</label>
+
+                <input
+                    id="search"
+                    type="search"
+                    placeholder="Søg i titel eller beskrivelse"
+                >
+            </div>
+
+            <div class="filter-field">
+                <label for="category">Kategori</label>
+
+                <select id="category">
+                    <option value="">Alle kategorier</option>
+                    <option value="furniture">Møbler</option>
+                    <option value="electronics">Elektronik</option>
+                    <option value="bicycles">Cykler</option>
+                    <option value="clothing">Tøj</option>
+                    <option value="garden">Have</option>
+                    <option value="tools">Værktøj</option>
+                    <option value="books">Bøger</option>
+                    <option value="other">Andet</option>
+                </select>
+            </div>
+
+            <div class="filter-field">
+                <label for="sort">Sortering</label>
+
+                <select id="sort">
+                    <option value="newest">Nyeste først</option>
+                    <option value="price-ascending">
+                        Laveste pris
+                    </option>
+                    <option value="price-descending">
+                        Højeste pris
+                    </option>
+                </select>
+            </div>
+        </section>
+
+        <section class="listings-status" aria-live="polite">
+            <p id="status-message">Henter annoncer…</p>
+        </section>
+
+        <section
+            id="listings-container"
+            class="listings-grid"
+            aria-label="Annoncer"
+        ></section>
+
+        <template id="listing-template">
+            <article class="listing-card">
+                <a class="listing-link" href="#">
+                    <div class="listing-image-placeholder">
+                        <span>Intet billede</span>
+                    </div>
+
+                    <div class="listing-content">
+                        <div class="listing-meta">
+                            <span class="listing-category"></span>
+                            <time class="listing-date"></time>
+                        </div>
+
+                        <h2 class="listing-title"></h2>
+
+                        <p class="listing-description"></p>
+
+                        <div class="listing-footer">
+                            <strong class="listing-price"></strong>
+
+                            <span class="listing-location"></span>
+                        </div>
+                    </div>
+                </a>
+            </article>
+        </template>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="year"></span> Annora</p>
+    </footer>
+</body>
+</html>

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Annora.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7571f36f07a19865b06d6e6c9c4a17abeda423d0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ce925e288382c94a8177075762b862faff54763b")]
 [assembly: System.Reflection.AssemblyProductAttribute("Annora.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Annora.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

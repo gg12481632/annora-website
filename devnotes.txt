@@ -677,4 +677,167 @@ Test-NetConnection localhost -Port 10002
 cd C:\Research\AnnoraWebsite\src\Annora.Api
 dotnet run
 
+From other powershell
+
+$listing = @{
+    title       = "Stressless lænestol i sort læder"
+    category    = "furniture"
+    description = "Velholdt Stressless lænestol med sort læder og fodskammel."
+    price       = 2500
+    condition   = "good"
+
+    location = @{
+        postalCode = "2791"
+        city       = "Dragør"
+    }
+
+    seller = @{
+        email = "kontakt@annora.dk"
+    }
+} | ConvertTo-Json -Depth 5
+
+$result = Invoke-RestMethod `
+    -Uri "http://localhost:7071/api/listings" `
+    -Method Post `
+    -ContentType "application/json; charset=utf-8" `
+    -Body $listing
+
+$result
+
+az storage entity query `
+    --connection-string "UseDevelopmentStorage=true" `
+    --table-name Listings `
+    --output table
+	
+	
+### 9. Byg og start
+
+cd C:\Research\AnnoraWebsite
+
+dotnet build .\Annora.slnx
+	
+	
+cd C:\Research\AnnoraWebsite\src\Annora.Api
+dotnet run
+
+	
+	
+	
+	
+New-Item `
+    .\src\Annora.Application\Listings\GetListingByIdHandler.cs `
+    -ItemType File
+	
+New-Item `
+    .\src\Annora.Web\css\create.css `
+    -ItemType File `
+    -Force
+	
+	
+	
+	
+http://localhost:7071/api/listings
+From browser
+=>
+[
+  {
+    "id": "62186892-9ce9-4fb3-bf23-452e67141fea",
+    "title": "Stressless lænestol i sort læder",
+    "category": "furniture",
+    "description": "Velholdt Stressless lænestol med sort læder og fodskammel.",
+    "price": 2500,
+    "condition": "good",
+    "postalCode": "2791",
+    "city": "Dragør",
+    "createdAt": "2026-08-05T17:47:04.7147928+00:00"
+  }
+]
+
+http://localhost:7071/api/listings/62186892-9ce9-4fb3-bf23-452e67141fea
+From browser
+=>
+{
+  "id": "62186892-9ce9-4fb3-bf23-452e67141fea",
+  "title": "Stressless lænestol i sort læder",
+  "category": "furniture",
+  "description": "Velholdt Stressless lænestol med sort læder og fodskammel.",
+  "price": 2500,
+  "condition": "good",
+  "postalCode": "2791",
+  "city": "Dragør",
+  "createdAt": "2026-08-05T17:47:04.7147928+00:00"
+}
+
+
+
+$listing = @{
+    title       = "Stressless lænestol i sort læder"
+    category    = "furniture"
+    description = "Velholdt Stressless lænestol med sort læder og fodskammel."
+    price       = 2500
+    condition   = "good"
+
+    location = @{
+        postalCode = "2791"
+        city       = "Dragør"
+    }
+
+    seller = @{
+        email = "kontakt@annora.dk"
+    }
+} | ConvertTo-Json -Depth 5
+
+$result = Invoke-RestMethod `
+    -Uri "http://localhost:7071/api/listings" `
+    -Method Post `
+    -ContentType "application/json; charset=utf-8" `
+    -Body $listing
+
+$result
+
+$listing = @{
+    title       = "Børnecykel"
+    category    = "cykel"
+    description = "Fremstår i orginale materialer"
+    price       = 500
+    condition   = "good"
+
+    location = @{
+        postalCode = "2791"
+        city       = "Dragør"
+    }
+
+    seller = @{
+        email = "kontakt2@annora.dk"
+    }
+} | ConvertTo-Json -Depth 5
+
+$result = Invoke-RestMethod `
+    -Uri "http://localhost:7071/api/listings" `
+    -Method Post `
+    -ContentType "application/json; charset=utf-8" `
+    -Body $listing
+
+$result
+
+
+az storage entity query `
+    --connection-string "UseDevelopmentStorage=true" `
+    --table-name Listings `
+    --output table
+	
+cd C:\Research\AnnoraWebsite
+	
+New-Item `
+    .\src\Annora.Web\listings.html `
+    -ItemType File `
+    -Force
+
+New-Item `
+    .\src\Annora.Web\css\listings.css `
+    -ItemType File `
+    -Force
+
+	
+dotnet build .\Annora.slnx
 	
