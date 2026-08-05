@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Annora.Application/Annora.Application.csproj" />
+    <Project Path="src/Annora.Domain/Annora.Domain.csproj" />
+    <Project Path="src/Annora.Infrastructure/Annora.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Annora.Api/">
+    <Project Path="src/Annora.Api/api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Annora.Application.Tests/Annora.Application.Tests.csproj" />
+  </Folder>
+</Solution>

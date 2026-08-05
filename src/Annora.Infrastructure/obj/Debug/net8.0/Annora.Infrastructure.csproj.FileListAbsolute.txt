@@ -1,0 +1,12 @@
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\bin\Debug\net8.0\Annora.Infrastructure.deps.json
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\bin\Debug\net8.0\Annora.Infrastructure.dll
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\bin\Debug\net8.0\Annora.Infrastructure.pdb
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\Annora.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\Annora.Infrastructure.AssemblyInfoInputs.cache
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\Annora.Infrastructure.AssemblyInfo.cs
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\Annora.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\Annora.Infrastructure.sourcelink.json
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\Annora.Infrastructure.dll
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\refint\Annora.Infrastructure.dll
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\Annora.Infrastructure.pdb
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\ref\Annora.Infrastructure.dll

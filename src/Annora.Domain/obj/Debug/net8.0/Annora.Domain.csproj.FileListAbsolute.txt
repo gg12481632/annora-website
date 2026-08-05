@@ -1,0 +1,12 @@
+C:\Research\AnnoraWebsite\src\Annora.Domain\bin\Debug\net8.0\Annora.Domain.deps.json
+C:\Research\AnnoraWebsite\src\Annora.Domain\bin\Debug\net8.0\Annora.Domain.dll
+C:\Research\AnnoraWebsite\src\Annora.Domain\bin\Debug\net8.0\Annora.Domain.pdb
+C:\Research\AnnoraWebsite\src\Annora.Domain\obj\Debug\net8.0\Annora.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Research\AnnoraWebsite\src\Annora.Domain\obj\Debug\net8.0\Annora.Domain.AssemblyInfoInputs.cache
+C:\Research\AnnoraWebsite\src\Annora.Domain\obj\Debug\net8.0\Annora.Domain.AssemblyInfo.cs
+C:\Research\AnnoraWebsite\src\Annora.Domain\obj\Debug\net8.0\Annora.Domain.csproj.CoreCompileInputs.cache
+C:\Research\AnnoraWebsite\src\Annora.Domain\obj\Debug\net8.0\Annora.Domain.sourcelink.json
+C:\Research\AnnoraWebsite\src\Annora.Domain\obj\Debug\net8.0\Annora.Domain.dll
+C:\Research\AnnoraWebsite\src\Annora.Domain\obj\Debug\net8.0\refint\Annora.Domain.dll
+C:\Research\AnnoraWebsite\src\Annora.Domain\obj\Debug\net8.0\Annora.Domain.pdb
+C:\Research\AnnoraWebsite\src\Annora.Domain\obj\Debug\net8.0\ref\Annora.Domain.dll

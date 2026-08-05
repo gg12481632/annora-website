@@ -285,3 +285,101 @@ Do not run this now, but this deletes the complete hands-on project later:
 /*az group delete `
     --name $resourceGroup `
     --yes*/
+
+
+
+git add .
+git commit -m "Add create listing page"
+git push
+
+gh run list `
+    --repo gg12481632/annora-website
+=>
+STATUS  TITLE                                        WORKFLOW                     BRANCH  EVENT  ID           ELAPSED  AGE
+*       Add create listing page                      Azure Static Web Apps CI/CD  main    push   30998531884  1m1s     about 1 minute ago
+✓       ci: add Azure Static Web Apps workflow file  Azure Static Web Apps CI/CD  main    push   30993981921  1m17s    about 1 hour ago
+PS C:\Research\AnnoraWebsite>
+
+
+https://agreeable-sea-06745e503.7.azurestaticapps.net/
+
+
+======================================================================================================================================
+Næste iteration bliver at tilføje et C# Azure Functions API, så formularens JSON sendes til /api/listings og valideres på serversiden.
+
+cd C:\Research\AnnoraWebsite
+Install the Azure Functions Core Tools
+
+dotnet --version
+func --version
+
+
+
+PS C:\Research\AnnoraWebsite> where.exe func
+>> func --version
+C:\Program Files\Microsoft\Azure Functions Core Tools\func.exe
+4.13.0
+PS C:\Research\AnnoraWebsite> cd C:\Research\AnnoraWebsite
+PS C:\Research\AnnoraWebsite> func init api `
+>>     --worker-runtime dotnet-isolated `
+>>     --target-framework net8.0
+
+.NET 8 will reach end-of-life on November 10 2026 and will no longer be supported.
+
+Writing C:\Research\AnnoraWebsite\api\.vscode\extensions.json
+PS C:\Research\AnnoraWebsite>
+PS C:\Research\AnnoraWebsite> cd api
+>>
+>> func new `
+>>     --template "HTTP trigger" `
+>>     --name CreateListing `
+>>     --authlevel anonymous
+>>
+>> cd ..
+Template: HTTP trigger
+Function name: [HTTP trigger] CreateListing
+The function "CreateListing" was created successfully from the "HTTP trigger" template.
+PS C:\Research\AnnoraWebsite>
+PS C:\Research\AnnoraWebsite> dotnet build .\api\api.csproj
+Restore complete (0,6s)
+  WorkerExtensions net8.0 succeeded (6,1s) → api\obj\Debug\net8.0\WorkerExtensions\bin\Release\net8.0\Microsoft.Azure.Functions.Worker.Extensions.dll
+  api net8.0 succeeded (16,6s) → api\bin\Debug\net8.0\api.dll
+
+Build succeeded in 32,4s
+PS C:\Research\AnnoraWebsite> cd .\api
+>> func start
+Running 'func start' directly against a .NET Isolated project may not correctly load function extensions. Use 'dotnet run' instead, which builds the project and starts the Functions host from the correct output directory.
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  WorkerExtensions -> C:\Research\AnnoraWebsite\api\obj\Debug\net8.0\WorkerExtensions\bin\Release\net8.0\Microsoft.Azure.Functions.Worker.Extensions.dll
+  api -> C:\Research\AnnoraWebsite\api\bin\output\api.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:10.34
+
+
+
+
+Azure Functions Core Tools
+Core Tools Version:       4.13.0+dd0daba7f6fc9380ab5a74c37ad1c372740bee2e (64-bit)
+Function Runtime Version: 4.1051.300.26316
+
+[2026-08-05T11:08:25.364Z] Found C:\Research\AnnoraWebsite\api\api.csproj. Using for user secrets file configuration.
+[2026-08-05T11:08:33.444Z] Worker process started and initialized.
+
+Functions:
+
+        CreateListing: [GET,POST] http://localhost:7071/api/CreateListing
+
+For detailed output, run func with --verbose flag.
+[2026-08-05T11:08:48.694Z] [Tag=''] Process reporting unhealthy: Unhealthy. Health check entries are {"azure.functions.web_host.lifecycle":{"status":"Healthy","description":null},"azure.functions.script_host.lifecycle":{"status":"Healthy","description":null},"azure.functions.webjobs.storage":{"status":"Unhealthy","description":"A timeout occurred while running check."}}
+[2026-08-05T11:09:15.827Z] [Tag=''] Process reporting unhealthy: Unhealthy. Health check entries are {"azure.functions.web_host.lifecycle":{"status":"Healthy","description":null},"azure.functions.script_host.lifecycle":{"status":"Healthy","description":null},"azure.functions.webjobs.storage":{"status":"Unhealthy","description":"Unable to access AzureWebJobsStorage","errorCode":null}}
+[2026-08-05T11:09:38.598Z] [Tag=''] Process reporting unhealthy: Unhealthy. Health check entries are {"azure.functions.web_host.lifecycle":{"status":"Healthy","description":null},"azure.functions.script_host.lifecycle":{"status":"Healthy","description":null},"azure.functions.webjobs.storage":{"status":"Unhealthy","description":"Unable to access AzureWebJobsStorage","errorCode":null}}
+
+
+
