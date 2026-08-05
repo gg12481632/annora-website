@@ -92,8 +92,14 @@ resource listingsTable 'Microsoft.Storage/storageAccounts/tableServices/tables@2
   name: 'Listings'
 }
 
+resource imagesTable 'Microsoft.Storage/storageAccounts/tableServices/tables@2023-05-01' = {
+  parent: tableService
+  name: 'Images'
+}
+
 output storageAccountName string = storageAccount.name
 output storageAccountId string = storageAccount.id
 output blobEndpoint string = storageAccount.properties.primaryEndpoints.blob
 output tableEndpoint string = storageAccount.properties.primaryEndpoints.table
 output listingsTableName string = listingsTable.name
+output imagesTableName string = imagesTable.name

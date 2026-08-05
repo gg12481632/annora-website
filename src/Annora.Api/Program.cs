@@ -1,4 +1,5 @@
-using Annora.Application.Listings;
+using Annora.Application.Images;
+using Annora.Infrastructure.Images;using Annora.Application.Listings;
 using Annora.Infrastructure.Listings;
 using Annora.Infrastructure.Storage;
 using Microsoft.Azure.Functions.Worker.Builder;
@@ -24,8 +25,17 @@ builder.Services.AddSingleton<
     IListingRepository,
     TableListingRepository>();
 
+builder.Services.AddSingleton<
+    IListingImageStorage,
+    BlobListingImageStorage>();
+
+builder.Services.AddSingleton<
+    IImageUploadStorage,
+    ImageUploadStorage>();
+
 builder.Services.AddScoped<CreateListingHandler>();
 builder.Services.AddScoped<GetListingsHandler>();
 builder.Services.AddScoped<GetListingByIdHandler>();
+builder.Services.AddScoped<CreateImageUploadHandler>();
 
 builder.Build().Run();

@@ -866,9 +866,332 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 http://localhost:8081/create.html
 
+cd C:\Research\AnnoraWebsite
+
 New-Item `
     .\src\Annora.Web\listing.html `
     -ItemType File `
     -Force
 
+New-Item `
+    .\src\Annora.Web\css\listing.css `
+    -ItemType File `
+    -Force
 
+New-Item `
+    .\src\Annora.Web\js\listing.js `
+    -ItemType File `
+    -Force
+
+
+### 7. Konfigurér Static Web Apps-backenden
+
+az staticwebapp appsettings set `
+    --name $staticWebApp `
+    --resource-group $resourceGroup `
+    --setting-names `
+        "Storage__ConnectionString=$storageConnectionString" `
+        "Storage__ListingsTableName=Listings"
+		
+### 1. Installér Blob Storage-pakken
+
+cd C:\Research\AnnoraWebsite
+
+dotnet add `
+    .\src\Annora.Infrastructure\Annora.Infrastructure.csproj `
+    package Azure.Storage.Blobs
+
+
+
+$listings = Invoke-RestMethod `
+    -Uri "http://localhost:7071/api/listings"
+
+$id = $listings[0].id
+$id
+	
+$imagePath = "c:\Research\AnnoraWebsiteFiles\sunset9.jpg"
+
+curl.exe `
+    -X POST `
+    -F "image=@$imagePath" `
+    "http://localhost:7071/api/listings/$id/image"
+	
+cd C:\Research\AnnoraWebsite
+
+	
+
+Start-Process `
+    "http://localhost:7071/api/listings/$id/image"
+
+
+
+
+$resourceGroup = "rg-annora-website-prod"
+
+$staticWebApp = az staticwebapp list `
+    --resource-group $resourceGroup `
+    --query "[0].name" `
+    --output tsv
+
+$subscriptionId = az account show --query id --output tsv
+
+$appSettingsUri = `
+    "https://management.azure.com/subscriptions/$subscriptionId" +
+    "/resourceGroups/$resourceGroup" +
+    "/providers/Microsoft.Web/staticSites/$staticWebApp" +
+    "/config/appsettings" +
+    "?api-version=2025-03-01"
+	
+[PSCustomObject]@{
+    SubscriptionId = $subscriptionId
+    ResourceGroup  = $resourceGroup
+    StaticWebApp   = $staticWebApp
+}
+
+$listSettingsUri = `
+    "https://management.azure.com/subscriptions/$subscriptionId" +
+    "/resourceGroups/$resourceGroup" +
+    "/providers/Microsoft.Web/staticSites/$staticWebApp" +
+    "/listAppSettings" +
+    "?api-version=2025-03-01"
+	
+$listSettingsUri
+
+
+$currentSettings = az rest `
+    --method post `
+    --uri $listSettingsUri |
+    ConvertFrom-Json
+
+PS C:\Research\AnnoraWebsite> $currentSettings
+
+
+id            : /subscriptions/a24620e6-3f42-4f4b-9dd7-9f575b3ff8e9/resourceGroups/rg-annora-website-prod/providers/Mic
+                rosoft.Web/staticSites/swa-annora-prod/config/appsettings
+location      : West Europe
+name          : appsettings
+properties    : @{Storage__ConnectionString=DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=
+                stannoradevfx5lqc;AccountKey=ug6JmRVEe8O2beEdZnBseffgASdBCJjohzEtQVEyQsHKPVlIRTYSyfUAbrWNM3m5VQMIoYkVQC
+                d9+AStwO5hKw==; Storage__ListingsTableName=Listings}
+resourceGroup : rg-annora-website-prod
+type          : Microsoft.Web/staticSites/config
+
+
+$currentSettings.properties |
+    Add-Member `
+        -NotePropertyName "Storage__ImagesContainerName" `
+        -NotePropertyValue "images" `
+        -Force
+
+PS C:\Research\AnnoraWebsite> $currentSettings
+
+
+id            : /subscriptions/a24620e6-3f42-4f4b-9dd7-9f575b3ff8e9/resourceGroups/rg-annora-website-prod/providers/Mic
+                rosoft.Web/staticSites/swa-annora-prod/config/appsettings
+location      : West Europe
+name          : appsettings
+properties    : @{Storage__ConnectionString=DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=
+                stannoradevfx5lqc;AccountKey=ug6JmRVEe8O2beEdZnBseffgASdBCJjohzEtQVEyQsHKPVlIRTYSyfUAbrWNM3m5VQMIoYkVQC
+                d9+AStwO5hKw==; Storage__ListingsTableName=Listings; Storage__ImagesContainerName=images}
+resourceGroup : rg-annora-website-prod
+type          : Microsoft.Web/staticSites/config
+
+$updateSettingsUri = `
+    "https://management.azure.com/subscriptions/$subscriptionId" +
+    "/resourceGroups/$resourceGroup" +
+    "/providers/Microsoft.Web/staticSites/$staticWebApp" +
+    "/config/appsettings" +
+    "?api-version=2025-03-01"
+	
+	
+$appSettingsFile = Join-Path $env:TEMP "annora-swa-appsettings.json"
+
+$currentSettings |
+    ConvertTo-Json -Depth 10 |
+    Set-Content `
+        -Path $appSettingsFile `
+        -Encoding utf8
+
+az rest `
+    --method put `
+    --uri $updateSettingsUri `
+    --headers "Content-Type=application/json" `
+    --body "@$appSettingsFile"
+	
+	
+az rest `
+    --method post `
+    --uri $listSettingsUri `
+    --query "properties | keys(@)" `
+    --output table
+	
+	
+	
+cd C:\Research\AnnoraWebsite
+
+New-Item `
+    .\docs/Decisions/ADR-004-Image-Architecture.md `
+    -ItemType File `
+    -Force
+	
+New-Item `
+    .\src\Annora.Application\Images\CreateImageUploadCommand.cs `
+    -ItemType File `
+    -Force
+
+New-Item `
+    .\src\Annora.Application\Images\CreateImageUploadResult.cs `
+    -ItemType File `
+    -Force
+	
+	
+New-Item `
+    .\src\Annora.Application\Images\IImageUploadStorage.cs `
+    -ItemType File `
+    -Force
+
+
+New-Item `
+    .\src\Annora.Infrastructure\Images\ImageTableEntity.cs `
+    -ItemType File `
+    -Force
+
+
+New-Item `
+    .\src\Annora.Infrastructure\Images\ImageUploadStorage.cs `
+    -ItemType File `
+    -Force
+
+
+New-Item `
+    .\src\Annora.Application\Images\CreateImageUploadHandler.cs `
+    -ItemType File `
+    -Force
+
+New-Item `
+    .\src\Annora.Api\CreateImageUpload.cs `
+    -ItemType File `
+    -Force
+
+################################
+#BEGIN Udvid med en ny parameter : Storage__ImagesTableName=Images
+
+$resourceGroup = "rg-annora-website-prod"
+
+$staticWebApp = az staticwebapp list `
+    --resource-group $resourceGroup `
+    --query "[0].name" `
+    --output tsv
+
+$subscriptionId = az account show --query id --output tsv
+
+$appSettingsUri = `
+    "https://management.azure.com/subscriptions/$subscriptionId" +
+    "/resourceGroups/$resourceGroup" +
+    "/providers/Microsoft.Web/staticSites/$staticWebApp" +
+    "/config/appsettings" +
+    "?api-version=2025-03-01"
+	
+[PSCustomObject]@{
+    SubscriptionId = $subscriptionId
+    ResourceGroup  = $resourceGroup
+    StaticWebApp   = $staticWebApp
+}
+
+$listSettingsUri = `
+    "https://management.azure.com/subscriptions/$subscriptionId" +
+    "/resourceGroups/$resourceGroup" +
+    "/providers/Microsoft.Web/staticSites/$staticWebApp" +
+    "/listAppSettings" +
+    "?api-version=2025-03-01"
+	
+$listSettingsUri
+
+
+$currentSettings = az rest `
+    --method post `
+    --uri $listSettingsUri |
+    ConvertFrom-Json
+
+$currentSettings
+=>
+
+id            : /subscriptions/a24620e6-3f42-4f4b-9dd7-9f575b3ff8e9/resourceGroups/rg-annora-website-prod/providers/Mic
+                rosoft.Web/staticSites/swa-annora-prod/config/appsettings
+location      : West Europe
+name          : appsettings
+properties    : @{Storage__ConnectionString=DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=
+                stannoradevfx5lqc;AccountKey=ug6JmRVEe8O2beEdZnBseffgASdBCJjohzEtQVEyQsHKPVlIRTYSyfUAbrWNM3m5VQMIoYkVQC
+                d9+AStwO5hKw==; Storage__ImagesContainerName=images; Storage__ListingsTableName=Listings}
+resourceGroup : rg-annora-website-prod
+type          : Microsoft.Web/staticSites/config
+
+$currentSettings.properties |
+    Add-Member `
+        -NotePropertyName "Storage__ImagesTableName" `
+        -NotePropertyValue "images" `
+        -Force
+
+$currentSettings
+=>
+
+PS C:\Research\AnnoraWebsite> $currentSettings.properties |
+>>     Add-Member `
+>>         -NotePropertyName "Storage__ImagesTableName" `
+>>         -NotePropertyValue "images" `
+>>         -Force
+>>
+PS C:\Research\AnnoraWebsite> $currentSettings
+
+
+id            : /subscriptions/a24620e6-3f42-4f4b-9dd7-9f575b3ff8e9/resourceGroups/rg-annora-website-prod/providers/Mic
+                rosoft.Web/staticSites/swa-annora-prod/config/appsettings
+location      : West Europe
+name          : appsettings
+properties    : @{Storage__ConnectionString=DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=
+                stannoradevfx5lqc;AccountKey=ug6JmRVEe8O2beEdZnBseffgASdBCJjohzEtQVEyQsHKPVlIRTYSyfUAbrWNM3m5VQMIoYkVQC
+                d9+AStwO5hKw==; Storage__ImagesContainerName=images; Storage__ListingsTableName=Listings;
+                Storage__ImagesTableName=images}
+resourceGroup : rg-annora-website-prod
+type          : Microsoft.Web/staticSites/config
+
+
+$updateSettingsUri = `
+    "https://management.azure.com/subscriptions/$subscriptionId" +
+    "/resourceGroups/$resourceGroup" +
+    "/providers/Microsoft.Web/staticSites/$staticWebApp" +
+    "/config/appsettings" +
+    "?api-version=2025-03-01"
+	
+	
+$appSettingsFile = Join-Path $env:TEMP "annora-swa-appsettings.json"
+
+$currentSettings |
+    ConvertTo-Json -Depth 10 |
+    Set-Content `
+        -Path $appSettingsFile `
+        -Encoding utf8
+
+az rest `
+    --method put `
+    --uri $updateSettingsUri `
+    --headers "Content-Type=application/json" `
+    --body "@$appSettingsFile"
+	
+	
+az rest `
+    --method post `
+    --uri $listSettingsUri `
+    --query "properties | keys(@)" `
+    --output table
+=>
+Result
+----------------------------
+Storage__ConnectionString
+Storage__ImagesContainerName
+Storage__ListingsTableName
+Storage__ImagesTableName
+PS C:\Research\AnnoraWebsite>
+
+#END Udvid med en ny parameter
+################################

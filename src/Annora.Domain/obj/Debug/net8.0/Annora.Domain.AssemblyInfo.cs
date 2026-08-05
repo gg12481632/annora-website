@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Annora.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a15f486a08cc1675423c6e5a6e5fe7510046c8ee")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c90523bb641b7b8d5c739016a1f7c02844515b68")]
 [assembly: System.Reflection.AssemblyProductAttribute("Annora.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Annora.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
