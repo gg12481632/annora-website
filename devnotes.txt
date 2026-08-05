@@ -622,3 +622,59 @@ dotnet build
 
 dotnet restore .\Annora.slnx
 dotnet build .\Annora.slnx
+
+
+
+New-Item `
+    -ItemType File `
+    -Path .\src\Annora.Application\Listings\IListingRepository.cs `
+    -Force
+
+New-Item `
+    -ItemType File `
+    -Path .\src\Annora.Domain\Listings\Listing.cs `
+    -Force
+
+
+New-Item `
+    -ItemType File `
+    -Path .\src\Annora.Application\Listings\CreateListingCommand.cs `
+    -Force
+
+
+Test-Path .\src\Annora.Application\Listings\CreateListingCommand.cs
+
+
+New-Item `
+    -ItemType File `
+    -Path .\src\Annora.Api\local.settings.json `
+    -Force
+
+
+docker run `
+    --name azurite `
+    --detach `
+    --restart unless-stopped `
+    --publish 10000:10000 `
+    --publish 10001:10001 `
+    --publish 10002:10002 `
+    --volume "C:\Research\AzuriteData:/data" `
+    mcr.microsoft.com/azure-storage/azurite `
+    azurite `
+    --blobHost 0.0.0.0 `
+    --queueHost 0.0.0.0 `
+    --tableHost 0.0.0.0 `
+    --location /data
+	
+	
+	
+Test-NetConnection localhost -Port 10000
+Test-NetConnection localhost -Port 10001
+Test-NetConnection localhost -Port 10002
+=>
+3xtrue
+
+cd C:\Research\AnnoraWebsite\src\Annora.Api
+dotnet run
+
+	

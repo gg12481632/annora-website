@@ -49,4 +49,25 @@ public sealed class TableListingRepository : IListingRepository
             entity,
             cancellationToken);
     }
+
+    public async Task<IReadOnlyCollection<Listing>> GetAllAsync(
+        CancellationToken cancellationToken = default)
+    {
+        await _tableClient.CreateIfNotExistsAsync(
+            cancellationToken);
+
+        var listings = new List<Listing>();
+
+        await foreach (
+            var entity in _tableClient.QueryAsync<ListingTableEntity>(
+                entity => entity.PartitionKey == "listing",
+                cancellationToken: cancellationToken))
+        {
+            listings.Add(entity.ToDomain());
+        }
+
+        return listings
+            .OrderByDescending(listing => listing.CreatedAt)
+            .ToArray();
+    }
 }

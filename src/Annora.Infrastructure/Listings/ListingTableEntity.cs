@@ -49,4 +49,19 @@ internal sealed class ListingTableEntity : ITableEntity
             CreatedAt = listing.CreatedAt
         };
     }
+
+    public Listing ToDomain()
+    {
+        return Listing.Restore(
+            Guid.ParseExact(RowKey, "N"),
+            Title,
+            Category,
+            Description,
+            Convert.ToDecimal(Price),
+            Condition,
+            PostalCode,
+            City,
+            SellerEmail,
+            CreatedAt);
+    }
 }

@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+using Annora.Application.Listings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
@@ -8,26 +8,32 @@ namespace api;
 
 public sealed class CreateListing
 {
+    private readonly CreateListingHandler _handler;
     private readonly ILogger<CreateListing> _logger;
 
-    public CreateListing(ILogger<CreateListing> logger)
+    public CreateListing(
+        CreateListingHandler handler,
+        ILogger<CreateListing> logger)
     {
+        _handler = handler;
         _logger = logger;
     }
 
-    [Function("CreateListing")]
+    [Function(nameof(CreateListing))]
     public async Task<IActionResult> Run(
         [HttpTrigger(
             AuthorizationLevel.Anonymous,
             "post",
             Route = "listings")]
-        HttpRequest request)
+        HttpRequest request,
+        CancellationToken cancellationToken)
     {
-        CreateListingRequest? listing;
+        CreateListingRequest? body;
 
         try
         {
-            listing = await request.ReadFromJsonAsync<CreateListingRequest>();
+            body = await request.ReadFromJsonAsync<CreateListingRequest>(
+                cancellationToken);
         }
         catch (Exception exception)
         {
@@ -41,7 +47,7 @@ public sealed class CreateListing
             });
         }
 
-        if (listing is null)
+        if (body is null)
         {
             return new BadRequestObjectResult(new
             {
@@ -49,149 +55,65 @@ public sealed class CreateListing
             });
         }
 
-        var validationErrors = Validate(listing);
-
-        if (validationErrors.Count > 0)
+        try
         {
+            var command = new CreateListingCommand(
+                body.Title ?? string.Empty,
+                body.Category ?? string.Empty,
+                body.Description ?? string.Empty,
+                body.Price,
+                body.Condition ?? string.Empty,
+                body.Location?.PostalCode ?? string.Empty,
+                body.Location?.City ?? string.Empty,
+                body.Seller?.Email ?? string.Empty);
+
+            var result = await _handler.HandleAsync(
+                command,
+                cancellationToken);
+
+            return new ObjectResult(new
+            {
+                id = result.Id,
+                title = result.Title,
+                status = "Created",
+                createdAt = result.CreatedAt
+            })
+            {
+                StatusCode = StatusCodes.Status201Created
+            };
+        }
+        catch (ArgumentException exception)
+        {
+            _logger.LogWarning(
+                exception,
+                "Listing validation failed.");
+
             return new BadRequestObjectResult(new
             {
-                message = "The listing is not valid.",
-                errors = validationErrors
+                message = exception.Message
             });
         }
-
-        var result = new ListingResponse(
-            Id: Guid.NewGuid(),
-            Title: listing.Title!.Trim(),
-            Status: "Created",
-            CreatedAt: DateTimeOffset.UtcNow);
-
-        _logger.LogInformation(
-            "Created listing {ListingId} with title {ListingTitle}.",
-            result.Id,
-            result.Title);
-
-        return new ObjectResult(result)
-        {
-            StatusCode = StatusCodes.Status201Created
-        };
-    }
-
-    private static Dictionary<string, string[]> Validate(
-        CreateListingRequest listing)
-    {
-        var errors = new Dictionary<string, string[]>();
-
-        if (string.IsNullOrWhiteSpace(listing.Title) ||
-            listing.Title.Trim().Length < 5)
-        {
-            errors["title"] =
-            [
-                "Titlen skal indeholde mindst 5 tegn."
-            ];
-        }
-
-        if (string.IsNullOrWhiteSpace(listing.Description) ||
-            listing.Description.Trim().Length < 20)
-        {
-            errors["description"] =
-            [
-                "Beskrivelsen skal indeholde mindst 20 tegn."
-            ];
-        }
-
-        if (string.IsNullOrWhiteSpace(listing.Category))
-        {
-            errors["category"] =
-            [
-                "Der skal vælges en kategori."
-            ];
-        }
-
-        if (listing.Price < 0)
-        {
-            errors["price"] =
-            [
-                "Prisen må ikke være negativ."
-            ];
-        }
-
-        if (listing.Location is null ||
-            string.IsNullOrWhiteSpace(listing.Location.PostalCode) ||
-            listing.Location.PostalCode.Length != 4 ||
-            !listing.Location.PostalCode.All(char.IsDigit))
-        {
-            errors["postalCode"] =
-            [
-                "Postnummeret skal bestå af fire cifre."
-            ];
-        }
-
-        if (listing.Location is null ||
-            string.IsNullOrWhiteSpace(listing.Location.City))
-        {
-            errors["city"] =
-            [
-                "By skal udfyldes."
-            ];
-        }
-
-        if (listing.Seller is null ||
-            string.IsNullOrWhiteSpace(listing.Seller.Email) ||
-            !new EmailAddressAttribute().IsValid(listing.Seller.Email))
-        {
-            errors["email"] =
-            [
-                "Der skal angives en gyldig e-mailadresse."
-            ];
-        }
-
-        return errors;
     }
 }
 
 public sealed class CreateListingRequest
 {
     public string? Title { get; init; }
-
     public string? Category { get; init; }
-
     public string? Description { get; init; }
-
     public decimal Price { get; init; }
-
     public string? Condition { get; init; }
-
-    public ListingLocation? Location { get; init; }
-
-    public ListingSeller? Seller { get; init; }
-
-    public IReadOnlyCollection<ListingImage>? Images { get; init; }
+    public ListingLocationRequest? Location { get; init; }
+    public ListingSellerRequest? Seller { get; init; }
 }
 
-public sealed class ListingLocation
+public sealed class ListingLocationRequest
 {
     public string? PostalCode { get; init; }
-
     public string? City { get; init; }
 }
 
-public sealed class ListingSeller
+public sealed class ListingSellerRequest
 {
     public string? Email { get; init; }
 }
-
-public sealed class ListingImage
-{
-    public string? Name { get; init; }
-
-    public long Size { get; init; }
-
-    public string? Type { get; init; }
-}
-
-public sealed record ListingResponse(
-    Guid Id,
-    string Title,
-    string Status,
-    DateTimeOffset CreatedAt);

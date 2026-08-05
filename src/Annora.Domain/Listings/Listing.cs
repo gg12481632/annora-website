@@ -59,4 +59,30 @@ public sealed class Listing
             sellerEmail.Trim(),
             DateTimeOffset.UtcNow);
     }
+
+    public static Listing Restore(
+        Guid id,
+        string title,
+        string category,
+        string description,
+        decimal price,
+        string condition,
+        string postalCode,
+        string city,
+        string sellerEmail,
+        DateTimeOffset createdAt)
+    {
+        return new Listing(
+            id,
+            title,
+            category,
+            description,
+            price,
+            condition,
+            postalCode,
+            city,
+            sellerEmail,
+            createdAt);
+    }
+
 }
