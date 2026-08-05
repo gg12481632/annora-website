@@ -507,8 +507,118 @@ az deployment group show `
 }
 PS C:\Research\AnnoraWebsite>
 
+
+$storageAccountName = az deployment group show `
+    --name $deploymentName `
+    --resource-group $resourceGroup `
+    --query "properties.outputs.storageAccountName.value" `
+    --output tsv
+
+$storageAccountName
+
+### 10. Kontrollér Azure-ressourcen	
+
+az storage account show `
+    --name $storageAccountName `
+    --resource-group $resourceGroup `
+    --query "{Name:name,Location:location,Kind:kind,SKU:sku.name,HttpsOnly:enableHttpsTrafficOnly,PublicBlobAccess:allowBlobPublicAccess}" `
+    --output table
 	
+=>
+Name               Location    Kind       SKU           HttpsOnly    PublicBlobAccess
+-----------------  ----------  ---------  ------------  -----------  ------------------
+stannoradevfx5lqc  westeurope  StorageV2  Standard_LRS  True         False
+PS C:\Research\AnnoraWebsite>
+	
+### 11. Kontrollér containere og tabel
+
+$storageKey = az storage account keys list `
+    --resource-group $resourceGroup `
+    --account-name $storageAccountName `
+    --query "[0].value" `
+    --output tsv
+
+az storage container list `
+    --account-name $storageAccountName `
+    --account-key $storageKey `
+    --query "[].{Name:name,PublicAccess:properties.publicAccess}" `
+    --output table
+=>
+Name
+----------
+images
+thumbnails
+PS C:\Research\AnnoraWebsite>
+
+az storage table list `
+    --account-name $storageAccountName `
+    --account-key $storageKey `
+    --output table
+
+Name
+--------
+Listings
+PS C:\Research\AnnoraWebsite>	
+
+Remove-Variable storageKey
 	
 
+### 12. Commit infrastrukturen
+
+git status
+
+git add `
+    .\infra\bicep\storage.bicep `
+    .\.gitignore
+
+git commit -m "Add Bicep infrastructure for Annora storage"
+
+git push
 
 
+
+### 1. Installér Azure Tables SDK
+
+cd C:\Research\AnnoraWebsite
+
+
+dotnet add `
+    .\src\Annora.Infrastructure\Annora.Infrastructure.csproj `
+    package Azure.Data.Tables
+	
+
+### 2. Opret Storage-konfiguration	
+
+New-Item `
+    -ItemType Directory `
+    -Path .\src\Annora.Infrastructure\Storage `
+    -Force
+
+New-Item `
+    -ItemType File `
+    -Path .\src\Annora.Infrastructure\Storage\StorageOptions.cs `
+    -Force
+	
+### 3. Opret Table-entiteten	
+
+New-Item `
+    -ItemType File `
+    -Path .\src\Annora.Infrastructure\Listings\ListingTableEntity.cs `
+    -Force
+	
+### 4. Opret det rigtige repository	
+
+New-Item `
+    -ItemType File `
+    -Path .\src\Annora.Infrastructure\Listings\TableListingRepository.cs `
+    -Force
+
+### 5. Fjern det midlertidige repository
+	
+Remove-Item `
+    .\src\Annora.Infrastructure\Listings\InMemoryListingRepository.cs
+	
+dotnet build
+
+dotnet restore .\Annora.slnx
+dotnet build .\Annora.slnx

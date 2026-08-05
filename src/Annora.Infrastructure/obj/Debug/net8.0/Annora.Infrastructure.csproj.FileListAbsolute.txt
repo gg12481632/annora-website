@@ -1,11 +1,17 @@
 C:\Research\AnnoraWebsite\src\Annora.Infrastructure\bin\Debug\net8.0\Annora.Infrastructure.deps.json
 C:\Research\AnnoraWebsite\src\Annora.Infrastructure\bin\Debug\net8.0\Annora.Infrastructure.dll
 C:\Research\AnnoraWebsite\src\Annora.Infrastructure\bin\Debug\net8.0\Annora.Infrastructure.pdb
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\bin\Debug\net8.0\Annora.Application.dll
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\bin\Debug\net8.0\Annora.Domain.dll
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\bin\Debug\net8.0\Annora.Application.pdb
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\bin\Debug\net8.0\Annora.Domain.pdb
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\Annora.Infrastructure.csproj.AssemblyReference.cache
 C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\Annora.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
 C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\Annora.Infrastructure.AssemblyInfoInputs.cache
 C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\Annora.Infrastructure.AssemblyInfo.cs
 C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\Annora.Infrastructure.csproj.CoreCompileInputs.cache
 C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\Annora.Infrastructure.sourcelink.json
+C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\Annora.I.237A4D8F.Up2Date
 C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\Annora.Infrastructure.dll
 C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\refint\Annora.Infrastructure.dll
 C:\Research\AnnoraWebsite\src\Annora.Infrastructure\obj\Debug\net8.0\Annora.Infrastructure.pdb

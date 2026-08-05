@@ -1,11 +1,15 @@
 C:\Research\AnnoraWebsite\src\Annora.Application\bin\Debug\net8.0\Annora.Application.deps.json
 C:\Research\AnnoraWebsite\src\Annora.Application\bin\Debug\net8.0\Annora.Application.dll
 C:\Research\AnnoraWebsite\src\Annora.Application\bin\Debug\net8.0\Annora.Application.pdb
+C:\Research\AnnoraWebsite\src\Annora.Application\bin\Debug\net8.0\Annora.Domain.dll
+C:\Research\AnnoraWebsite\src\Annora.Application\bin\Debug\net8.0\Annora.Domain.pdb
+C:\Research\AnnoraWebsite\src\Annora.Application\obj\Debug\net8.0\Annora.Application.csproj.AssemblyReference.cache
 C:\Research\AnnoraWebsite\src\Annora.Application\obj\Debug\net8.0\Annora.Application.GeneratedMSBuildEditorConfig.editorconfig
 C:\Research\AnnoraWebsite\src\Annora.Application\obj\Debug\net8.0\Annora.Application.AssemblyInfoInputs.cache
 C:\Research\AnnoraWebsite\src\Annora.Application\obj\Debug\net8.0\Annora.Application.AssemblyInfo.cs
 C:\Research\AnnoraWebsite\src\Annora.Application\obj\Debug\net8.0\Annora.Application.csproj.CoreCompileInputs.cache
 C:\Research\AnnoraWebsite\src\Annora.Application\obj\Debug\net8.0\Annora.Application.sourcelink.json
+C:\Research\AnnoraWebsite\src\Annora.Application\obj\Debug\net8.0\Annora.A.896C2C87.Up2Date
 C:\Research\AnnoraWebsite\src\Annora.Application\obj\Debug\net8.0\Annora.Application.dll
 C:\Research\AnnoraWebsite\src\Annora.Application\obj\Debug\net8.0\refint\Annora.Application.dll
 C:\Research\AnnoraWebsite\src\Annora.Application\obj\Debug\net8.0\Annora.Application.pdb
