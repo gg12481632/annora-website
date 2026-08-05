@@ -1,6 +1,5 @@
 "use strict";
-
-const apiBaseUrl = "http://localhost:7071/api";
+import { getListings } from "./api.js";
 
 const container = document.getElementById("listings-container");
 const template = document.getElementById("listing-template");
@@ -16,15 +15,7 @@ async function loadListings() {
     statusMessage.textContent = "Henter annoncer…";
 
     try {
-        const response = await fetch(`${apiBaseUrl}/listings`);
-
-        if (!response.ok) {
-            throw new Error(
-                `API'et returnerede HTTP ${response.status}.`
-            );
-        }
-
-        listings = await response.json();
+        listings = await getListings();
 
         renderListings();
     }

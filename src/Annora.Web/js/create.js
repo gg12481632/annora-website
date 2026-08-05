@@ -1,3 +1,7 @@
+import {
+    createListing
+}
+from "./api.js";
 "use strict";
 
 const form = document.getElementById("listing-form");
@@ -7,8 +11,6 @@ const resultSection = document.getElementById("result-section");
 const resultHeading = document.getElementById("result-heading");
 const resultMessage = document.getElementById("result-message");
 const resultDetails = document.getElementById("result-details");
-
-const apiBaseUrl = "http://localhost:7071/api";
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -45,24 +47,26 @@ form.addEventListener("submit", async (event) => {
     resultDetails.textContent = "";
 
     try {
-        const response = await fetch(`${apiBaseUrl}/listings`, {
-            method: "POST",
+        // const response = await fetch(`${apiBaseUrl}/listings`, {
+        //     method: "POST",
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
 
-            body: JSON.stringify(listing)
-        });
+        //     body: JSON.stringify(listing)
+        // });
 
-        const responseBody = await response.json();
+        // const responseBody = await response.json();
 
-        if (!response.ok) {
-            throw new Error(
-                responseBody.message ??
-                `API'et returnerede HTTP ${response.status}.`
-            );
-        }
+        // if (!response.ok) {
+        //     throw new Error(
+        //         responseBody.message ??
+        //         `API'et returnerede HTTP ${response.status}.`
+        //     );
+        // }
+        const responseBody =
+            await createListing(listing);
 
         resultHeading.textContent = "Annoncen er oprettet";
         resultMessage.textContent =

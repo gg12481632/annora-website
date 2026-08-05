@@ -838,6 +838,30 @@ New-Item `
     -ItemType File `
     -Force
 
+New-Item `
+    .\src\Annora.Web\js\listings.js `
+    -ItemType File `
+    -Force
+
+New-Item `
+    .\src/Annora.Web/js/config.js `
+    -ItemType File `
+    -Force
+
+New-Item `
+    .\src/Annora.Web/js/api.js `
+    -ItemType File `
+    -Force
+
+
+
 	
+cd C:\Research\AnnoraWebsite
+
 dotnet build .\Annora.slnx
-	
+
+PS C:\Research\AnnoraWebsite> 
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\scripts\run-local.ps1
+
+http://localhost:8081/create.html
