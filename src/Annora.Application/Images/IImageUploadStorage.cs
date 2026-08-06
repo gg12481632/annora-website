@@ -18,4 +18,8 @@ public interface IImageUploadStorage
         Guid imageId,
         Guid listingId,
         CancellationToken cancellationToken = default);
+
+    Task<Uri?> CreateReadUrlAsync(
+        Guid imageId,
+        CancellationToken cancellationToken = default);
 }

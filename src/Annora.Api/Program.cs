@@ -38,5 +38,6 @@ builder.Services.AddScoped<GetListingsHandler>();
 builder.Services.AddScoped<GetListingByIdHandler>();
 builder.Services.AddScoped<CreateImageUploadHandler>();
 builder.Services.AddScoped<CompleteImageUploadHandler>();
+builder.Services.AddScoped<GetImageUrlHandler>();
 
 builder.Build().Run();

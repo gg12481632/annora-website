@@ -123,145 +123,205 @@ public sealed class ImageUploadStorage : IImageUploadStorage
                 StringComparer.OrdinalIgnoreCase);
     }
 
-public async Task CompleteUploadAsync(
-    Guid imageId,
-    CancellationToken cancellationToken = default)
-{
-    var rowKey = imageId.ToString("N");
+    public async Task CompleteUploadAsync(
+        Guid imageId,
+        CancellationToken cancellationToken = default)
+    {
+        var rowKey = imageId.ToString("N");
 
-    var imageResponse =
-        await _tableClient.GetEntityIfExistsAsync<ImageTableEntity>(
-            partitionKey: "image",
-            rowKey: rowKey,
+        var imageResponse =
+            await _tableClient.GetEntityIfExistsAsync<ImageTableEntity>(
+                partitionKey: "image",
+                rowKey: rowKey,
+                cancellationToken: cancellationToken);
+
+        if (!imageResponse.HasValue)
+        {
+            throw new KeyNotFoundException(
+                $"Image '{imageId}' was not found.");
+        }
+
+        var image = imageResponse.Value;
+
+        if (!string.Equals(
+            image.Status,
+            "Pending",
+            StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException(
+                $"Image '{imageId}' is not pending.");
+        }
+
+        var blobClient =
+            _containerClient.GetBlobClient(image.BlobName);
+
+        var exists = await blobClient.ExistsAsync(
+            cancellationToken);
+
+        if (!exists.Value)
+        {
+            throw new InvalidOperationException(
+                "The uploaded blob does not exist.");
+        }
+
+        var properties = await blobClient.GetPropertiesAsync(
             cancellationToken: cancellationToken);
 
-    if (!imageResponse.HasValue)
-    {
-        throw new KeyNotFoundException(
-            $"Image '{imageId}' was not found.");
+        if (properties.Value.ContentLength != image.Size)
+        {
+            throw new InvalidOperationException(
+                "The uploaded file size does not match the requested size.");
+        }
+
+        if (!string.Equals(
+            properties.Value.ContentType,
+            image.ContentType,
+            StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException(
+                "The uploaded content type does not match the requested type.");
+        }
+
+        image.Status = "Uploaded";
+        image.UploadedAt = DateTimeOffset.UtcNow;
+
+        await _tableClient.UpdateEntityAsync(
+            image,
+            image.ETag,
+            TableUpdateMode.Replace,
+            cancellationToken);
     }
 
-    var image = imageResponse.Value;
-
-    if (!string.Equals(
-        image.Status,
-        "Pending",
-        StringComparison.OrdinalIgnoreCase))
+    public async Task ValidateForAttachmentAsync(
+        Guid imageId,
+        CancellationToken cancellationToken = default)
     {
-        throw new InvalidOperationException(
-            $"Image '{imageId}' is not pending.");
+        var image = await GetImageAsync(
+            imageId,
+            cancellationToken);
+
+        if (!string.Equals(
+            image.Status,
+            "Uploaded",
+            StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException(
+                $"Image '{imageId}' is not ready for attachment.");
+        }
+
+        if (!string.IsNullOrWhiteSpace(image.ListingId))
+        {
+            throw new InvalidOperationException(
+                $"Image '{imageId}' is already attached to a listing.");
+        }
     }
 
-    var blobClient =
-        _containerClient.GetBlobClient(image.BlobName);
-
-    var exists = await blobClient.ExistsAsync(
-        cancellationToken);
-
-    if (!exists.Value)
+    public async Task AttachToListingAsync(
+        Guid imageId,
+        Guid listingId,
+        CancellationToken cancellationToken = default)
     {
-        throw new InvalidOperationException(
-            "The uploaded blob does not exist.");
+        var image = await GetImageAsync(
+            imageId,
+            cancellationToken);
+
+        if (!string.Equals(
+            image.Status,
+            "Uploaded",
+            StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException(
+                $"Image '{imageId}' is not ready for attachment.");
+        }
+
+        image.Status = "Attached";
+        image.ListingId = listingId.ToString("D");
+        image.AttachedAt = DateTimeOffset.UtcNow;
+
+        await _tableClient.UpdateEntityAsync(
+            image,
+            image.ETag,
+            TableUpdateMode.Replace,
+            cancellationToken);
     }
 
-    var properties = await blobClient.GetPropertiesAsync(
-        cancellationToken: cancellationToken);
-
-    if (properties.Value.ContentLength != image.Size)
+    private async Task<ImageTableEntity> GetImageAsync(
+        Guid imageId,
+        CancellationToken cancellationToken)
     {
-        throw new InvalidOperationException(
-            "The uploaded file size does not match the requested size.");
+        var response =
+            await _tableClient.GetEntityIfExistsAsync<ImageTableEntity>(
+                partitionKey: "image",
+                rowKey: imageId.ToString("N"),
+                cancellationToken: cancellationToken);
+
+        if (!response.HasValue)
+        {
+            throw new KeyNotFoundException(
+                $"Image '{imageId}' was not found.");
+        }
+
+        return response.Value;
     }
 
-    if (!string.Equals(
-        properties.Value.ContentType,
-        image.ContentType,
-        StringComparison.OrdinalIgnoreCase))
+    public async Task<Uri?> CreateReadUrlAsync(
+        Guid imageId,
+        CancellationToken cancellationToken = default)
     {
-        throw new InvalidOperationException(
-            "The uploaded content type does not match the requested type.");
+        var response =
+            await _tableClient.GetEntityIfExistsAsync<ImageTableEntity>(
+                partitionKey: "image",
+                rowKey: imageId.ToString("N"),
+                cancellationToken: cancellationToken);
+
+        if (!response.HasValue)
+        {
+            return null;
+        }
+
+        var image = response.Value;
+
+        if (!string.Equals(
+                image.Status,
+                "Attached",
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        var blobClient =
+            _containerClient.GetBlobClient(image.BlobName);
+
+        var exists = await blobClient.ExistsAsync(
+            cancellationToken);
+
+        if (!exists.Value)
+        {
+            return null;
+        }
+
+        var now = DateTimeOffset.UtcNow;
+
+        var sasBuilder = new BlobSasBuilder
+        {
+            BlobContainerName = _containerClient.Name,
+            BlobName = image.BlobName,
+            Resource = "b",
+            StartsOn = now.AddMinutes(-1),
+            ExpiresOn = now.AddMinutes(10),
+            Protocol = SasProtocol.Https
+        };
+
+        sasBuilder.SetPermissions(
+            BlobSasPermissions.Read);
+
+        var sas = sasBuilder.ToSasQueryParameters(
+            _credential);
+
+        return new UriBuilder(blobClient.Uri)
+        {
+            Query = sas.ToString()
+        }.Uri;
     }
-
-    image.Status = "Uploaded";
-    image.UploadedAt = DateTimeOffset.UtcNow;
-
-    await _tableClient.UpdateEntityAsync(
-        image,
-        image.ETag,
-        TableUpdateMode.Replace,
-        cancellationToken);
-}
-
-public async Task ValidateForAttachmentAsync(
-    Guid imageId,
-    CancellationToken cancellationToken = default)
-{
-    var image = await GetImageAsync(
-        imageId,
-        cancellationToken);
-
-    if (!string.Equals(
-        image.Status,
-        "Uploaded",
-        StringComparison.OrdinalIgnoreCase))
-    {
-        throw new InvalidOperationException(
-            $"Image '{imageId}' is not ready for attachment.");
-    }
-
-    if (!string.IsNullOrWhiteSpace(image.ListingId))
-    {
-        throw new InvalidOperationException(
-            $"Image '{imageId}' is already attached to a listing.");
-    }
-}
-
-public async Task AttachToListingAsync(
-    Guid imageId,
-    Guid listingId,
-    CancellationToken cancellationToken = default)
-{
-    var image = await GetImageAsync(
-        imageId,
-        cancellationToken);
-
-    if (!string.Equals(
-        image.Status,
-        "Uploaded",
-        StringComparison.OrdinalIgnoreCase))
-    {
-        throw new InvalidOperationException(
-            $"Image '{imageId}' is not ready for attachment.");
-    }
-
-    image.Status = "Attached";
-    image.ListingId = listingId.ToString("D");
-    image.AttachedAt = DateTimeOffset.UtcNow;
-
-    await _tableClient.UpdateEntityAsync(
-        image,
-        image.ETag,
-        TableUpdateMode.Replace,
-        cancellationToken);
-}
-
-private async Task<ImageTableEntity> GetImageAsync(
-    Guid imageId,
-    CancellationToken cancellationToken)
-{
-    var response =
-        await _tableClient.GetEntityIfExistsAsync<ImageTableEntity>(
-            partitionKey: "image",
-            rowKey: imageId.ToString("N"),
-            cancellationToken: cancellationToken);
-
-    if (!response.HasValue)
-    {
-        throw new KeyNotFoundException(
-            $"Image '{imageId}' was not found.");
-    }
-
-    return response.Value;
-}
 
 }
