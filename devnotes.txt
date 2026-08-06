@@ -1195,3 +1195,40 @@ PS C:\Research\AnnoraWebsite>
 
 #END Udvid med en ny parameter
 ################################
+
+
+PS C:\Research\AnnoraWebsite> $baseUrl =
+>>     "https://agreeable-sea-06745e503.7.azurestaticapps.net"
+>>
+>> $request = @{
+>>     fileName    = "stol.jpg"
+>>     contentType = "image/jpeg"
+>>     size        = 123456
+>> } | ConvertTo-Json
+>>
+>> $upload = Invoke-RestMethod `
+>>     -Uri "$baseUrl/api/images/uploads" `
+>>     -Method Post `
+>>     -ContentType "application/json" `
+>>     -Body $request
+>>
+>> $upload.imageId
+>> $upload.expiresAt
+8a701d13-0af4-4fd7-b7b3-b5313dc73751
+2026-08-06T06:29:59.3274123+00:00
+PS C:\Research\AnnoraWebsite>
+
+
+
+New-Item `
+    .\src\Annora.Application\Images\CompleteImageUploadHandler.cs `
+    -ItemType File `
+    -Force
+
+New-Item `
+    .\src\Annora.Api\CompleteImageUpload.cs `
+    -ItemType File `
+    -Force
+
+Status af "GitHub Actions-deployment":
+gh run list
