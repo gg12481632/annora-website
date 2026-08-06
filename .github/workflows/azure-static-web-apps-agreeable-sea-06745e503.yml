@@ -1,10 +1,9 @@
 name: Azure Static Web Apps CI/CD
 
-'on':
+on:
   push:
     branches:
       - main
-
   pull_request:
     types:
       - opened
@@ -13,7 +12,6 @@ name: Azure Static Web Apps CI/CD
       - closed
     branches:
       - main
-
   workflow_dispatch:
 
 jobs:
