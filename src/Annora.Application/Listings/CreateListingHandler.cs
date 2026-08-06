@@ -36,7 +36,9 @@ public async Task<CreateListingResult> HandleAsync(
         command.PostalCode,
         command.City,
         command.SellerEmail,
-        command.PrimaryImageId);
+        command.PrimaryImageId,
+        command.OwnerId,
+        command.OwnerName);
 
     await _repository.AddAsync(
         listing,

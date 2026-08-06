@@ -12,6 +12,8 @@ public sealed class Listing
     public string City { get; }
     public string SellerEmail { get; }
     public Guid? PrimaryImageId { get; }    
+public string? OwnerId { get; }
+public string? OwnerName { get; }
     public DateTimeOffset CreatedAt { get; }
 
     private Listing(
@@ -25,6 +27,8 @@ public sealed class Listing
         string city,
         string sellerEmail,
         Guid? primaryImageId,        
+string? ownerId,
+string? ownerName,
         DateTimeOffset createdAt)
     {
         Id = id;
@@ -37,33 +41,46 @@ public sealed class Listing
         City = city;
         SellerEmail = sellerEmail;
         PrimaryImageId = primaryImageId;
+OwnerId = ownerId;
+OwnerName = ownerName;
         CreatedAt = createdAt;
     }
 
-    public static Listing Create(
-        string title,
-        string category,
-        string description,
-        decimal price,
-        string condition,
-        string postalCode,
-        string city,
-        string sellerEmail,
-        Guid? primaryImageId)
+public static Listing Create(
+    string title,
+    string category,
+    string description,
+    decimal price,
+    string condition,
+    string postalCode,
+    string city,
+    string sellerEmail,
+    Guid? primaryImageId,
+    string ownerId,
+    string ownerName)
+{
+    if (string.IsNullOrWhiteSpace(ownerId))
     {
-        return new Listing(
-            Guid.NewGuid(),
-            title.Trim(),
-            category.Trim(),
-            description.Trim(),
-            price,
-            condition.Trim(),
-            postalCode,
-            city.Trim(),
-            sellerEmail.Trim(),
-            primaryImageId,
-            DateTimeOffset.UtcNow);
+        throw new ArgumentException(
+            "Owner id is required.",
+            nameof(ownerId));
     }
+
+    return new Listing(
+        Guid.NewGuid(),
+        title.Trim(),
+        category.Trim(),
+        description.Trim(),
+        price,
+        condition.Trim(),
+        postalCode.Trim(),
+        city.Trim(),
+        sellerEmail.Trim(),
+        primaryImageId,
+        ownerId.Trim(),
+        ownerName.Trim(),
+        DateTimeOffset.UtcNow);
+}
 
     public static Listing Restore(
         Guid id,
@@ -76,6 +93,8 @@ public sealed class Listing
         string city,
         string sellerEmail,
         Guid? primaryImageId,
+string? ownerId,
+string? ownerName,
         DateTimeOffset createdAt)
     {
         return new Listing(
@@ -89,6 +108,8 @@ public sealed class Listing
             city,
             sellerEmail,
             primaryImageId,
+		ownerId,
+		ownerName,
             createdAt);
     }
 

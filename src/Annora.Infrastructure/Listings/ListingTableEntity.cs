@@ -32,6 +32,10 @@ internal sealed class ListingTableEntity : ITableEntity
 
     public string? PrimaryImageId { get; set; }
 
+public string? OwnerId { get; set; }
+
+public string? OwnerName { get; set; }
+
     public DateTimeOffset CreatedAt { get; set; }
 
     public static ListingTableEntity FromDomain(Listing listing)
@@ -52,6 +56,8 @@ internal sealed class ListingTableEntity : ITableEntity
             City = listing.City,
             SellerEmail = listing.SellerEmail,
             PrimaryImageId = listing.PrimaryImageId?.ToString(),
+OwnerId = listing.OwnerId,
+OwnerName = listing.OwnerName,
             CreatedAt = listing.CreatedAt
         };
     }
@@ -78,6 +84,8 @@ internal sealed class ListingTableEntity : ITableEntity
             City,
             SellerEmail,
             primaryImageId,
+OwnerId,
+OwnerName,
             CreatedAt);
     }
 }

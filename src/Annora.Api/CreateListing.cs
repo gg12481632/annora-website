@@ -1,3 +1,4 @@
+using api.Authentication;
 using Annora.Application.Listings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,12 +11,15 @@ public sealed class CreateListing
 {
     private readonly CreateListingHandler _handler;
     private readonly ILogger<CreateListing> _logger;
+    private readonly ICurrentUserAccessor _currentUserAccessor;
 
     public CreateListing(
         CreateListingHandler handler,
+        ICurrentUserAccessor currentUserAccessor,
         ILogger<CreateListing> logger)
     {
         _handler = handler;
+        _currentUserAccessor = currentUserAccessor;
         _logger = logger;
     }
 
@@ -55,6 +59,20 @@ public sealed class CreateListing
             });
         }
 
+        CurrentUser currentUser;
+
+        try
+        {
+            currentUser =
+                _currentUserAccessor.GetRequiredUser(request);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return new UnauthorizedObjectResult(new
+            {
+                message = "User is not authenticated."
+            });
+        }
         try
         {
             var command = new CreateListingCommand(
@@ -66,7 +84,9 @@ public sealed class CreateListing
                 body.Location?.PostalCode ?? string.Empty,
                 body.Location?.City ?? string.Empty,
                 body.Seller?.Email ?? string.Empty,
-                body.PrimaryImageId);
+                body.PrimaryImageId,
+                currentUser.UserId,
+                currentUser.DisplayName);
 
             var result = await _handler.HandleAsync(
                 command,

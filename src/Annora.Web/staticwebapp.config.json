@@ -16,7 +16,16 @@
       "allowedRoles": [
         "authenticated"
       ]
-    }
+    },
+{
+  "route": "/api/listings",
+  "methods": [
+    "POST"
+  ],
+  "allowedRoles": [
+    "authenticated"
+  ]
+}
   ],
   "responseOverrides": {
     "401": {
