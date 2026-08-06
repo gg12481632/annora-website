@@ -8,7 +8,7 @@
             Position = 1,
             ValueFromRemainingArguments = $true
         )]
-        [string[]] $Arguments
+        [string[]] $Arguments = @()        
     )
 
     $commandName = $Command.ToLowerInvariant()
