@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="da">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta
-        name="description"
-        content="Opret en gratis annonce på Annora og giv dine brugte ting et nyt hjem."
-    >
+    <meta name="description" content="Opret en gratis annonce på Annora og giv dine brugte ting et nyt hjem.">
 
     <title>Opret annonce – Annora</title>
 
@@ -15,9 +13,7 @@
     <link rel="stylesheet" href="css/create.css">
 
     <script src="js/site.js" defer></script>
-    <script
-        type="module"
-        src="js/create.js">
+    <script type="module" src="js/create.js">
     </script>
 
 </head>
@@ -66,16 +62,8 @@
                         <span aria-hidden="true">*</span>
                     </label>
 
-                    <input
-                        id="title"
-                        name="title"
-                        type="text"
-                        minlength="5"
-                        maxlength="100"
-                        autocomplete="off"
-                        placeholder="Eksempel: Stressless lænestol i sort læder"
-                        required
-                    >
+                    <input id="title" name="title" type="text" minlength="5" maxlength="100" autocomplete="off"
+                        placeholder="Eksempel: Stressless lænestol i sort læder" required>
 
                     <small>
                         Skriv producent, model og de vigtigste egenskaber.
@@ -89,11 +77,7 @@
                             <span aria-hidden="true">*</span>
                         </label>
 
-                        <select
-                            id="category"
-                            name="category"
-                            required
-                        >
+                        <select id="category" name="category" required>
                             <option value="">Vælg kategori</option>
                             <option value="furniture">Møbler</option>
                             <option value="electronics">Elektronik</option>
@@ -112,11 +96,7 @@
                             <span aria-hidden="true">*</span>
                         </label>
 
-                        <select
-                            id="condition"
-                            name="condition"
-                            required
-                        >
+                        <select id="condition" name="condition" required>
                             <option value="">Vælg stand</option>
                             <option value="new">Som ny</option>
                             <option value="good">God</option>
@@ -132,15 +112,9 @@
                         <span aria-hidden="true">*</span>
                     </label>
 
-                    <textarea
-                        id="description"
-                        name="description"
-                        rows="8"
-                        minlength="20"
-                        maxlength="2000"
+                    <textarea id="description" name="description" rows="8" minlength="20" maxlength="2000"
                         placeholder="Beskriv varens alder, stand, mål og eventuelle fejl eller mangler."
-                        required
-                    ></textarea>
+                        required></textarea>
 
                     <div class="field-information">
                         <small>
@@ -172,17 +146,8 @@
                         </label>
 
                         <div class="input-with-suffix">
-                            <input
-                                id="price"
-                                name="price"
-                                type="number"
-                                min="0"
-                                max="1000000"
-                                step="1"
-                                inputmode="numeric"
-                                placeholder="2500"
-                                required
-                            >
+                            <input id="price" name="price" type="number" min="0" max="1000000" step="1"
+                                inputmode="numeric" placeholder="2500" required>
 
                             <span>DKK</span>
                         </div>
@@ -194,18 +159,9 @@
                             <span aria-hidden="true">*</span>
                         </label>
 
-                        <input
-                            id="postalCode"
-                            name="postalCode"
-                            type="text"
-                            inputmode="numeric"
-                            autocomplete="postal-code"
-                            pattern="[0-9]{4}"
-                            minlength="4"
-                            maxlength="4"
-                            placeholder="2791"
-                            required
-                        >
+                        <input id="postalCode" name="postalCode" type="text" inputmode="numeric"
+                            autocomplete="postal-code" pattern="[0-9]{4}" minlength="4" maxlength="4" placeholder="2791"
+                            required>
                     </div>
                 </div>
 
@@ -215,15 +171,8 @@
                         <span aria-hidden="true">*</span>
                     </label>
 
-                    <input
-                        id="city"
-                        name="city"
-                        type="text"
-                        maxlength="100"
-                        autocomplete="address-level2"
-                        placeholder="Dragør"
-                        required
-                    >
+                    <input id="city" name="city" type="text" maxlength="100" autocomplete="address-level2"
+                        placeholder="Dragør" required>
                 </div>
             </section>
 
@@ -243,15 +192,8 @@
                         <span aria-hidden="true">*</span>
                     </label>
 
-                    <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        maxlength="200"
-                        autocomplete="email"
-                        placeholder="navn@eksempel.dk"
-                        required
-                    >
+                    <input id="email" name="email" type="email" maxlength="200" autocomplete="email"
+                        placeholder="navn@eksempel.dk" required>
 
                     <small>
                         Din e-mailadresse bliver ikke vist offentligt.
@@ -270,6 +212,20 @@
                 </div>
 
                 <label class="image-upload" for="images">
+                    <div id="image-preview-container" class="image-preview-container" hidden>
+                        <img id="image-preview" class="image-preview" alt="Forhåndsvisning af valgt billede">
+
+                        <div class="image-preview-information">
+                            <strong id="image-file-name"></strong>
+                            <span id="image-upload-status">
+                                Klar til upload
+                            </span>
+
+                            <button id="remove-image" class="remove-image-button" type="button">
+                                Fjern billede
+                            </button>
+                        </div>
+                    </div>
                     <span class="upload-icon" aria-hidden="true">
                         +
                     </span>
@@ -280,18 +236,11 @@
                         JPEG, PNG eller WebP
                     </span>
 
-                    <input
-                        id="images"
-                        name="images"
-                        type="file"
-                        accept="image/jpeg,image/png,image/webp"
-                        multiple
-                    >
+                    <input id="images" name="images" type="file" accept="image/jpeg,image/png,image/webp">
                 </label>
 
                 <p class="future-feature">
-                    Billeder kan vælges, men uploades først i en senere
-                    iteration.
+                    Første version understøtter ét hovedbillede.
                 </p>
             </section>
 
@@ -308,12 +257,7 @@
             </section>
         </form>
 
-        <section
-            id="result-section"
-            class="result-section"
-            aria-live="polite"
-            hidden
-        >
+        <section id="result-section" class="result-section" aria-live="polite" hidden>
             <h2 id="result-heading">Resultat</h2>
             <p id="result-message"></p>
             <pre id="result-details"></pre>
@@ -326,4 +270,5 @@
         </p>
     </footer>
 </body>
+
 </html>

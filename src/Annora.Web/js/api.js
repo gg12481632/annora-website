@@ -74,5 +74,66 @@ export async function getListing(id) {
         `/listings/${id}`
 
     );
+    
+}
 
+export async function createImageUpload(file) {
+    return await send(
+        "/images/uploads",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                fileName: file.name,
+                contentType: file.type,
+                size: file.size
+            })
+        });
+}
+
+export async function uploadImageToBlob(
+    uploadUrl,
+    file
+) {
+    const response = await fetch(
+        uploadUrl,
+        {
+            method: "PUT",
+            headers: {
+                "x-ms-blob-type": "BlockBlob",
+                "Content-Type": file.type
+            },
+            body: file
+        });
+
+    if (!response.ok) {
+        throw new Error(
+            `Billedupload fejlede med HTTP ${response.status}.`
+        );
+    }
+}
+
+export async function completeImageUpload(imageId) {
+    return await send(
+        `/images/${encodeURIComponent(imageId)}/complete`,
+        {
+            method: "POST"
+        });
+}
+
+export async function uploadImage(file) {
+    const upload = await createImageUpload(file);
+
+    await uploadImageToBlob(
+        upload.uploadUrl,
+        file
+    );
+
+    await completeImageUpload(
+        upload.imageId
+    );
+
+    return upload.imageId;
 }

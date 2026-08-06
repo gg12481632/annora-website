@@ -1272,6 +1272,9 @@ $baseUrl =
     "https://agreeable-sea-06745e503.7.azurestaticapps.net"
 
 
+7. Test hele Azure-flowet fra PowerShell
+
+# Opret uploadtilladelsen:
 
 $imagePath = "c:\Research\AnnoraWebsite\testimages\sunset2.jpg"
 $file = Get-Item $imagePath
@@ -1288,6 +1291,139 @@ $upload = Invoke-RestMethod `
     -ContentType "application/json" `
     -Body $request
 	
+# Upload filen direkte til Blob Storage:
+
+curl.exe `
+    -X PUT `
+    -H "x-ms-blob-type: BlockBlob" `
+    -H "Content-Type: image/jpeg" `
+    --upload-file "$imagePath" `
+    "$($upload.uploadUrl)"
 	
+# Bekræft uploaden:
+
+Invoke-RestMethod `
+    -Uri "$baseUrl/api/images/$($upload.imageId)/complete" `
+    -Method Post
 	
-	
+8. Kontrollér Images-tabellen
+
+$storageKey = az storage account keys list `
+    --resource-group $resourceGroup `
+    --account-name $storageAccountName `
+    --query "[0].value" `
+    --output tsv
+
+az storage entity query `
+    --account-name $storageAccountName `
+    --account-key $storageKey `
+    --table-name Images `
+    --output table
+
+Remove-Variable storageKey
+
+
+
+Get-ChildItem -Include *.cs -File -Recurse -ErrorAction SilentlyContinue | Select-String -Pattern "ListingResult"
+
+function Find-Code {
+    param(
+        [Parameter(Mandatory)]
+        [string]$Pattern,
+
+        [string[]]$Extensions = @("*.cs")
+    )
+
+    Get-ChildItem -File -Recurse -Include $Extensions -ErrorAction SilentlyContinue |
+        Select-String -Pattern $Pattern
+}
+
+Set-Alias fc Find-Code
+
+
+PS C:\Research\AnnoraWebsite> $storageKey = az storage account keys list `
+    --resource-group $resourceGroup `
+    --account-name $storageAccountName `
+    --query "[0].value" `
+    --output tsv
+
+az storage entity query `
+    --account-name $storageAccountName `
+    --account-key $storageKey `
+    --table-name Images `
+    --output table
+
+Remove-Variable storageKey
+PartitionKey    RowKey                            BlobName                                             ContentType    CreatedAt                         OriginalFileName    Size    Status    UploadedAt
+--------------  --------------------------------  ---------------------------------------------------  -------------  --------------------------------  ------------------  ------  --------  --------------------------------
+image           49e0ff674a7a453699e1a05d39f85035  originals/49e0ff674a7a453699e1a05d39f85035/original  image/jpeg     2026-08-05T22:46:40.794806+00:00  stol.jpg            123456  Pending
+image           4dc473b39248458f9bdebe729c3d6b68  originals/4dc473b39248458f9bdebe729c3d6b68/original  image/jpeg     2026-08-06T07:14:40.989019+00:00  sunset2.jpg         60368   Uploaded  2026-08-06T07:16:32.886902+00:00
+image           8a701d130af44fd7b7b3b5313dc73751  originals/8a701d130af44fd7b7b3b5313dc73751/original  image/jpeg     2026-08-06T06:14:59.327412+00:00  stol.jpg            123456  Pending
+PS C:\Research\AnnoraWebsite>
+
+
+
+
+--------------------
+$baseUrl =
+    "https://agreeable-sea-06745e503.7.azurestaticapps.net"
+
+$imageId = [Guid]::ParseExact(
+    "4dc473b39248458f9bdebe729c3d6b68",
+    "N"
+)
+
+$listingObject = @{
+    title          = "Solnedgang"
+    category       = "furniture"
+    description    = "Velholdt solnedgang med et uploadet hovedbillede."
+    price          = 2500
+    condition      = "good"
+    primaryImageId = $imageId
+
+    location = @{
+        postalCode = "2791"
+        city       = "Dragør"
+    }
+
+    seller = @{
+        email = "kontakt@annora.dk"
+    }
+}
+
+$listingJson = $listingObject |
+    ConvertTo-Json -Depth 5
+
+$body = [System.Text.Encoding]::UTF8.GetBytes(
+    $listingJson
+)
+
+$result = Invoke-RestMethod `
+    -Uri "$baseUrl/api/listings" `
+    -Method Post `
+    -ContentType "application/json; charset=utf-8" `
+    -Body $body
+
+$result
+--------------------------
+$storageKey = az storage account keys list `
+    --resource-group $resourceGroup `
+    --account-name $storageAccountName `
+    --query "[0].value" `
+    --output tsv
+
+az storage entity query `
+    --account-name $storageAccountName `
+    --account-key $storageKey `
+    --table-name Images `
+    --output table
+
+Remove-Variable storageKey
+=>
+PartitionKey    RowKey                            BlobName                                             ContentType    CreatedAt                         OriginalFileName    Size    Status    AttachedAt                        ListingId                             UploadedAt
+--------------  --------------------------------  ---------------------------------------------------  -------------  --------------------------------  ------------------  ------  --------  --------------------------------  ------------------------------------  --------------------------------
+image           49e0ff674a7a453699e1a05d39f85035  originals/49e0ff674a7a453699e1a05d39f85035/original  image/jpeg     2026-08-05T22:46:40.794806+00:00  stol.jpg            123456  Pending
+image           4dc473b39248458f9bdebe729c3d6b68  originals/4dc473b39248458f9bdebe729c3d6b68/original  image/jpeg     2026-08-06T07:14:40.989019+00:00  sunset2.jpg         60368   Attached  2026-08-06T08:25:26.116315+00:00  e2d81ca7-17c6-4513-81b7-a2ca45baca74  2026-08-06T07:16:32.886902+00:00
+image           8a701d130af44fd7b7b3b5313dc73751  originals/8a701d130af44fd7b7b3b5313dc73751/original  image/jpeg     2026-08-06T06:14:59.327412+00:00  stol.jpg            123456  Pending
+PS C:\Research\AnnoraWebsite>
+

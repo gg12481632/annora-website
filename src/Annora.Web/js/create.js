@@ -1,7 +1,7 @@
 import {
-    createListing
-}
-from "./api.js";
+    createListing,
+    uploadImage
+} from "./api.js";
 "use strict";
 
 const form = document.getElementById("listing-form");
@@ -11,6 +11,99 @@ const resultSection = document.getElementById("result-section");
 const resultHeading = document.getElementById("result-heading");
 const resultMessage = document.getElementById("result-message");
 const resultDetails = document.getElementById("result-details");
+
+const imageInput = document.getElementById("images");
+
+const imagePreviewContainer =
+    document.getElementById("image-preview-container");
+
+const imagePreview =
+    document.getElementById("image-preview");
+
+const imageFileName =
+    document.getElementById("image-file-name");
+
+const imageUploadStatus =
+    document.getElementById("image-upload-status");
+
+const removeImageButton =
+    document.getElementById("remove-image");
+
+let selectedImage = null;
+let previewUrl = null;
+
+imageInput.addEventListener("change", () => {
+    const file = imageInput.files[0] ?? null;
+
+    setSelectedImage(file);
+});
+
+removeImageButton.addEventListener("click", () => {
+    imageInput.value = "";
+    setSelectedImage(null);
+});
+
+function setSelectedImage(file) {
+    if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+        previewUrl = null;
+    }
+
+    if (file) {
+        const allowedTypes = [
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+        ];
+
+        const maximumSize =
+            5 * 1024 * 1024;
+
+        if (!allowedTypes.includes(file.type)) {
+            imageInput.value = "";
+
+            showImageValidationError(
+                "Kun JPEG, PNG og WebP understøttes."
+            );
+
+            return;
+        }
+
+        if (file.size > maximumSize) {
+            imageInput.value = "";
+
+            showImageValidationError(
+                "Billedet må højst fylde 5 MB."
+            );
+
+            return;
+        }
+    }
+    selectedImage = file;
+
+    if (!file) {
+        imagePreviewContainer.hidden = true;
+        imagePreview.removeAttribute("src");
+        imageFileName.textContent = "";
+        imageUploadStatus.textContent = "";
+        return;
+    }
+
+    previewUrl = URL.createObjectURL(file);
+
+    imagePreview.src = previewUrl;
+    imageFileName.textContent = file.name;
+    imageUploadStatus.textContent =
+        formatFileSize(file.size);
+
+    imagePreviewContainer.hidden = false;
+}
+
+function formatFileSize(size) {
+    const megabytes = size / 1024 / 1024;
+
+    return `${megabytes.toFixed(1)} MB`;
+}
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -47,24 +140,21 @@ form.addEventListener("submit", async (event) => {
     resultDetails.textContent = "";
 
     try {
-        // const response = await fetch(`${apiBaseUrl}/listings`, {
-        //     method: "POST",
+        let primaryImageId = null;
 
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
+        if (selectedImage) {
+            imageUploadStatus.textContent =
+                "Uploader billede…";
 
-        //     body: JSON.stringify(listing)
-        // });
+            primaryImageId =
+                await uploadImage(selectedImage);
 
-        // const responseBody = await response.json();
+            imageUploadStatus.textContent =
+                "Billedet er uploadet";
+        }
 
-        // if (!response.ok) {
-        //     throw new Error(
-        //         responseBody.message ??
-        //         `API'et returnerede HTTP ${response.status}.`
-        //     );
-        // }
+        listing.primaryImageId = primaryImageId;
+
         const responseBody =
             await createListing(listing);
 
@@ -95,5 +185,13 @@ form.addEventListener("submit", async (event) => {
             behavior: "smooth",
             block: "start"
         });
+    }
+
+    function showImageValidationError(message) {
+        selectedImage = null;
+        imagePreviewContainer.hidden = false;
+        imagePreview.removeAttribute("src");
+        imageFileName.textContent = "Ugyldigt billede";
+        imageUploadStatus.textContent = message;
     }
 });
