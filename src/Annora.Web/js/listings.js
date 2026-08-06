@@ -107,6 +107,25 @@ function renderListings() {
                 ".listing-image-placeholder"
             );
 
+image.addEventListener("load", () => {
+    console.log(
+        "Image loaded",
+        listing.title,
+        image.src
+    );
+});
+
+image.addEventListener("error", (event) => {
+    console.error(
+        "Image failed",
+        listing.title,
+        image.src,
+        event
+    );
+
+    image.hidden = true;
+    imagePlaceholder.hidden = false;
+});            
         if (listing.primaryImageId) {
             image.src =
                 `${config.apiBaseUrl}/images/` +

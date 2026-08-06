@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "C:\\Research\\AnnoraWebsite\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A5AC3882-5840-70BA-9DBC-1F51F5DD2307}|src\\Annora.Api\\api.csproj|c:\\research\\annorawebsite\\src\\annora.api\\getlistingbyid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5AC3882-5840-70BA-9DBC-1F51F5DD2307}|src\\Annora.Api\\api.csproj|solutionrelative:src\\annora.api\\getlistingbyid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8201A879-6348-0A2C-E694-87E509C34BEF}|src\\Annora.Application\\Annora.Application.csproj|c:\\research\\annorawebsite\\src\\annora.application\\listings\\getlistingbyidhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8201A879-6348-0A2C-E694-87E509C34BEF}|src\\Annora.Application\\Annora.Application.csproj|solutionrelative:src\\annora.application\\listings\\getlistingbyidhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8201A879-6348-0A2C-E694-87E509C34BEF}|src\\Annora.Application\\Annora.Application.csproj|c:\\research\\annorawebsite\\src\\annora.application\\listings\\ilistingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8201A879-6348-0A2C-E694-87E509C34BEF}|src\\Annora.Application\\Annora.Application.csproj|solutionrelative:src\\annora.application\\listings\\ilistingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4CD2CD2C-3F5E-FEBB-9DD0-496E3A1880C0}|src\\Annora.Infrastructure\\Annora.Infrastructure.csproj|c:\\research\\annorawebsite\\src\\annora.infrastructure\\listings\\listingtableentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4CD2CD2C-3F5E-FEBB-9DD0-496E3A1880C0}|src\\Annora.Infrastructure\\Annora.Infrastructure.csproj|solutionrelative:src\\annora.infrastructure\\listings\\listingtableentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -13,10 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A5AC3882-5840-70BA-9DBC-1F51F5DD2307}|src\\Annora.Api\\api.csproj|c:\\research\\annorawebsite\\src\\annora.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A5AC3882-5840-70BA-9DBC-1F51F5DD2307}|src\\Annora.Api\\api.csproj|solutionrelative:src\\annora.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8201A879-6348-0A2C-E694-87E509C34BEF}|src\\Annora.Application\\Annora.Application.csproj|c:\\research\\annorawebsite\\src\\annora.application\\listings\\ilistingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8201A879-6348-0A2C-E694-87E509C34BEF}|src\\Annora.Application\\Annora.Application.csproj|solutionrelative:src\\annora.application\\listings\\ilistingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,11 +34,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "GetListingById.cs",
+              "DocumentMoniker": "C:\\Research\\AnnoraWebsite\\src\\Annora.Api\\GetListingById.cs",
+              "RelativeDocumentMoniker": "src\\Annora.Api\\GetListingById.cs",
+              "ToolTip": "C:\\Research\\AnnoraWebsite\\src\\Annora.Api\\GetListingById.cs",
+              "RelativeToolTip": "src\\Annora.Api\\GetListingById.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAiwCMAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T19:27:39.834Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GetListingByIdHandler.cs",
+              "DocumentMoniker": "C:\\Research\\AnnoraWebsite\\src\\Annora.Application\\Listings\\GetListingByIdHandler.cs",
+              "RelativeDocumentMoniker": "src\\Annora.Application\\Listings\\GetListingByIdHandler.cs",
+              "ToolTip": "C:\\Research\\AnnoraWebsite\\src\\Annora.Application\\Listings\\GetListingByIdHandler.cs",
+              "RelativeToolTip": "src\\Annora.Application\\Listings\\GetListingByIdHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAwAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T19:26:54.066Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Research\\AnnoraWebsite\\src\\Annora.Api\\Program.cs",
               "RelativeDocumentMoniker": "src\\Annora.Api\\Program.cs",
@@ -38,12 +72,11 @@
               "RelativeToolTip": "src\\Annora.Api\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-05T13:09:51.056Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-05T13:09:51.056Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "ListingTableEntity.cs",
               "DocumentMoniker": "C:\\Research\\AnnoraWebsite\\src\\Annora.Infrastructure\\Listings\\ListingTableEntity.cs",
               "RelativeDocumentMoniker": "src\\Annora.Infrastructure\\Listings\\ListingTableEntity.cs",
@@ -56,19 +89,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "IListingRepository.cs",
               "DocumentMoniker": "C:\\Research\\AnnoraWebsite\\src\\Annora.Application\\Listings\\IListingRepository.cs",
               "RelativeDocumentMoniker": "src\\Annora.Application\\Listings\\IListingRepository.cs",
               "ToolTip": "C:\\Research\\AnnoraWebsite\\src\\Annora.Application\\Listings\\IListingRepository.cs",
               "RelativeToolTip": "src\\Annora.Application\\Listings\\IListingRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-05T13:04:29.696Z"
+              "WhenOpened": "2026-08-05T13:04:29.696Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "TableListingRepository.cs",
               "DocumentMoniker": "C:\\Research\\AnnoraWebsite\\src\\Annora.Infrastructure\\Listings\\TableListingRepository.cs",
               "RelativeDocumentMoniker": "src\\Annora.Infrastructure\\Listings\\TableListingRepository.cs",
@@ -76,8 +110,7 @@
               "RelativeToolTip": "src\\Annora.Infrastructure\\Listings\\TableListingRepository.cs",
               "ViewState": "AgIAACUAAAAAAAAAAAAqwD0AAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-05T12:58:31.868Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-05T12:58:31.868Z"
             }
           ]
         }
