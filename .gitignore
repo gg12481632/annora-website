@@ -1,2 +1,26 @@
+﻿# Visual Studio
+.vs/
 
-infra/bicep/*.json
+# .NET build output
+**/bin/
+**/obj/
+
+# Test output
+TestResults/
+
+# Azure Functions local settings
+**/local.settings.json
+
+# User-specific files
+*.user
+*.suo
+
+# Logs and temporary files
+*.log
+temp/
+scratch/
+downloads/
+
+# OS files
+Thumbs.db
+Desktop.ini
