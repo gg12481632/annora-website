@@ -1341,7 +1341,8 @@ function Find-Code {
 Set-Alias fc Find-Code
 
 
-PS C:\Research\AnnoraWebsite> $storageKey = az storage account keys list `
+PS C:\Research\AnnoraWebsite> 
+$storageKey = az storage account keys list `
     --resource-group $resourceGroup `
     --account-name $storageAccountName `
     --query "[0].value" `
@@ -1427,3 +1428,56 @@ image           4dc473b39248458f9bdebe729c3d6b68  originals/4dc473b39248458f9bde
 image           8a701d130af44fd7b7b3b5313dc73751  originals/8a701d130af44fd7b7b3b5313dc73751/original  image/jpeg     2026-08-06T06:14:59.327412+00:00  stol.jpg            123456  Pending
 PS C:\Research\AnnoraWebsite>
 
+
+
+$storageKey = az storage account keys list `
+    --resource-group $resourceGroup `
+    --account-name $storageAccountName `
+    --query "[0].value" `
+    --output tsv
+
+az storage entity query `
+    --account-name $storageAccountName `
+    --account-key $storageKey `
+    --table-name Images `
+    --output table
+
+az storage entity query `
+    --account-name $storageAccountName `
+    --account-key $storageKey `
+    --table-name Listings `
+    --output table
+
+Remove-Variable storageKey
+=>
+
+src\Annora.Application\Images\GetImageUrlHandler.cs
+New-Item .<PATH AND FILE NAME> -ItemType File -Force
+
+function touch {
+    param(
+        [Parameter(Mandatory)]
+        [string]$Path
+    )
+
+    New-Item -Path $Path -ItemType File -Force
+}
+
+
+
+$imageId = [Guid]::ParseExact("4dc473b39248458f9bdebe729c3d6b68","N")
+$baseUrl = "https://agreeable-sea-06745e503.7.azurestaticapps.net"
+$imageUrl = "$baseUrl/api/images/$imageId"
+Start-Process $imageUrl
+curl.exe --i $imageUrl
+	
+	
+Import-Module .\tools\Annora.Cli\AnnoraTools.psd1 -Force
+	
+annora root
+annora build
+annora status
+annora deploys
+annora watch
+annora api
+	
