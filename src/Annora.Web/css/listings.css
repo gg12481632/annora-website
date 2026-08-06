@@ -103,20 +103,6 @@
     text-decoration: none;
 }
 
-.listing-image-placeholder {
-    display: grid;
-    place-items: center;
-    aspect-ratio: 4 / 3;
-    color: var(--muted);
-    background:
-        linear-gradient(
-            135deg,
-            #edf3ef,
-            #dfeae3
-        );
-    font-weight: 700;
-}
-
 .listing-content {
     display: grid;
     gap: 0.8rem;

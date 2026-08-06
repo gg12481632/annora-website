@@ -187,3 +187,11 @@
         );
     font-weight: 700;
 }
+
+@media (max-width: 850px) {
+    .main-image-container,
+    .main-image,
+    .main-image-placeholder {
+        min-height: 350px;
+    }
+}
