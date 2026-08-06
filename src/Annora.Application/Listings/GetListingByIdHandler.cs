@@ -32,6 +32,7 @@ public sealed class GetListingByIdHandler
             listing.Condition,
             listing.PostalCode,
             listing.City,
+            listing.PrimaryImageId,
             listing.CreatedAt);
     }
 }

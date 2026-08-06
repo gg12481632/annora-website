@@ -1,6 +1,6 @@
-using Annora.Domain.Listings;
 using Azure;
 using Azure.Data.Tables;
+using Annora.Domain.Listings;
 
 namespace Annora.Infrastructure.Listings;
 
@@ -30,6 +30,8 @@ internal sealed class ListingTableEntity : ITableEntity
 
     public string SellerEmail { get; set; } = string.Empty;
 
+    public string? PrimaryImageId { get; set; }
+
     public DateTimeOffset CreatedAt { get; set; }
 
     public static ListingTableEntity FromDomain(Listing listing)
@@ -41,17 +43,30 @@ internal sealed class ListingTableEntity : ITableEntity
             Title = listing.Title,
             Category = listing.Category,
             Description = listing.Description,
+
+            // Azure Tables supports double but not decimal directly.
             Price = Convert.ToDouble(listing.Price),
+
             Condition = listing.Condition,
             PostalCode = listing.PostalCode,
             City = listing.City,
             SellerEmail = listing.SellerEmail,
+            PrimaryImageId = listing.PrimaryImageId?.ToString(),
             CreatedAt = listing.CreatedAt
         };
     }
 
     public Listing ToDomain()
     {
+        Guid? primaryImageId = null;
+
+        if (Guid.TryParse(
+            PrimaryImageId,
+            out var parsedImageId))
+        {
+            primaryImageId = parsedImageId;
+        }
+
         return Listing.Restore(
             Guid.ParseExact(RowKey, "N"),
             Title,
@@ -62,6 +77,7 @@ internal sealed class ListingTableEntity : ITableEntity
             PostalCode,
             City,
             SellerEmail,
+            primaryImageId,
             CreatedAt);
     }
 }

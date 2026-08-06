@@ -191,4 +191,77 @@ public async Task CompleteUploadAsync(
         TableUpdateMode.Replace,
         cancellationToken);
 }
+
+public async Task ValidateForAttachmentAsync(
+    Guid imageId,
+    CancellationToken cancellationToken = default)
+{
+    var image = await GetImageAsync(
+        imageId,
+        cancellationToken);
+
+    if (!string.Equals(
+        image.Status,
+        "Uploaded",
+        StringComparison.OrdinalIgnoreCase))
+    {
+        throw new InvalidOperationException(
+            $"Image '{imageId}' is not ready for attachment.");
+    }
+
+    if (!string.IsNullOrWhiteSpace(image.ListingId))
+    {
+        throw new InvalidOperationException(
+            $"Image '{imageId}' is already attached to a listing.");
+    }
+}
+
+public async Task AttachToListingAsync(
+    Guid imageId,
+    Guid listingId,
+    CancellationToken cancellationToken = default)
+{
+    var image = await GetImageAsync(
+        imageId,
+        cancellationToken);
+
+    if (!string.Equals(
+        image.Status,
+        "Uploaded",
+        StringComparison.OrdinalIgnoreCase))
+    {
+        throw new InvalidOperationException(
+            $"Image '{imageId}' is not ready for attachment.");
+    }
+
+    image.Status = "Attached";
+    image.ListingId = listingId.ToString("D");
+    image.AttachedAt = DateTimeOffset.UtcNow;
+
+    await _tableClient.UpdateEntityAsync(
+        image,
+        image.ETag,
+        TableUpdateMode.Replace,
+        cancellationToken);
+}
+
+private async Task<ImageTableEntity> GetImageAsync(
+    Guid imageId,
+    CancellationToken cancellationToken)
+{
+    var response =
+        await _tableClient.GetEntityIfExistsAsync<ImageTableEntity>(
+            partitionKey: "image",
+            rowKey: imageId.ToString("N"),
+            cancellationToken: cancellationToken);
+
+    if (!response.HasValue)
+    {
+        throw new KeyNotFoundException(
+            $"Image '{imageId}' was not found.");
+    }
+
+    return response.Value;
+}
+
 }

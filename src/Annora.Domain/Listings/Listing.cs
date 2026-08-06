@@ -11,6 +11,7 @@ public sealed class Listing
     public string PostalCode { get; }
     public string City { get; }
     public string SellerEmail { get; }
+    public Guid? PrimaryImageId { get; }    
     public DateTimeOffset CreatedAt { get; }
 
     private Listing(
@@ -23,6 +24,7 @@ public sealed class Listing
         string postalCode,
         string city,
         string sellerEmail,
+        Guid? primaryImageId,        
         DateTimeOffset createdAt)
     {
         Id = id;
@@ -34,6 +36,7 @@ public sealed class Listing
         PostalCode = postalCode;
         City = city;
         SellerEmail = sellerEmail;
+        PrimaryImageId = primaryImageId;
         CreatedAt = createdAt;
     }
 
@@ -45,7 +48,8 @@ public sealed class Listing
         string condition,
         string postalCode,
         string city,
-        string sellerEmail)
+        string sellerEmail,
+        Guid? primaryImageId)
     {
         return new Listing(
             Guid.NewGuid(),
@@ -57,6 +61,7 @@ public sealed class Listing
             postalCode,
             city.Trim(),
             sellerEmail.Trim(),
+            primaryImageId,
             DateTimeOffset.UtcNow);
     }
 
@@ -70,6 +75,7 @@ public sealed class Listing
         string postalCode,
         string city,
         string sellerEmail,
+        Guid? primaryImageId,
         DateTimeOffset createdAt)
     {
         return new Listing(
@@ -82,6 +88,7 @@ public sealed class Listing
             postalCode,
             city,
             sellerEmail,
+            primaryImageId,
             createdAt);
     }
 

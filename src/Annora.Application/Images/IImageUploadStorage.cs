@@ -9,4 +9,13 @@ public interface IImageUploadStorage
     Task CompleteUploadAsync(
         Guid imageId,
         CancellationToken cancellationToken = default);
+
+    Task ValidateForAttachmentAsync(
+        Guid imageId,
+        CancellationToken cancellationToken = default);
+
+    Task AttachToListingAsync(
+        Guid imageId,
+        Guid listingId,
+        CancellationToken cancellationToken = default);
 }

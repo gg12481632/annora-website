@@ -25,6 +25,7 @@ public sealed class GetListingsHandler
                 listing.Condition,
                 listing.PostalCode,
                 listing.City,
+                listing.PrimaryImageId,
                 listing.CreatedAt))
             .ToArray();
     }
@@ -39,4 +40,5 @@ public sealed record ListingResult(
     string Condition,
     string PostalCode,
     string City,
+    Guid? PrimaryImageId,
     DateTimeOffset CreatedAt);

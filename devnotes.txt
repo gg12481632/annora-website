@@ -1232,3 +1232,62 @@ New-Item `
 
 Status af "GitHub Actions-deployment":
 gh run list
+
+Følge live log:
+gh run watch
+
+Se loggen efterfølgende:
+gh run view
+
+
+$PROFILE
+=>
+C:\Users\45315\OneDrive\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
+
+
+
+PS C:\Research\AnnoraWebsite> Test-Path $PROFILE
+False
+PS C:\Research\AnnoraWebsite>
+
+New-Item `
+    -ItemType File `
+    -Path $PROFILE `
+    -Force
+	
+notepad $PROFILE
+	
+$moduleRoot = Join-Path `
+    ([Environment]::GetFolderPath("MyDocuments")) `
+    "WindowsPowerShell\Modules\AnnoraTools"
+$moduleFile = Join-Path $moduleRoot "AnnoraTools.psm1"
+notepad $moduleFile
+	
+
+
+
+
+	
+$baseUrl =
+    "https://agreeable-sea-06745e503.7.azurestaticapps.net"
+
+
+
+$imagePath = "c:\Research\AnnoraWebsite\testimages\sunset2.jpg"
+$file = Get-Item $imagePath
+
+$request = @{
+    fileName    = $file.Name
+    contentType = "image/jpeg"
+    size        = $file.Length
+} | ConvertTo-Json
+
+$upload = Invoke-RestMethod `
+    -Uri "$baseUrl/api/images/uploads" `
+    -Method Post `
+    -ContentType "application/json" `
+    -Body $request
+	
+	
+	
+	

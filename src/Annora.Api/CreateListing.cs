@@ -65,7 +65,8 @@ public sealed class CreateListing
                 body.Condition ?? string.Empty,
                 body.Location?.PostalCode ?? string.Empty,
                 body.Location?.City ?? string.Empty,
-                body.Seller?.Email ?? string.Empty);
+                body.Seller?.Email ?? string.Empty,
+                body.PrimaryImageId);
 
             var result = await _handler.HandleAsync(
                 command,
@@ -75,6 +76,7 @@ public sealed class CreateListing
             {
                 id = result.Id,
                 title = result.Title,
+                primaryImageId = result.PrimaryImageId,
                 status = "Created",
                 createdAt = result.CreatedAt
             })
@@ -93,6 +95,20 @@ public sealed class CreateListing
                 message = exception.Message
             });
         }
+        catch (KeyNotFoundException exception)
+        {
+            return new BadRequestObjectResult(new
+            {
+                message = exception.Message
+            });
+        }
+        catch (InvalidOperationException exception)
+        {
+            return new BadRequestObjectResult(new
+            {
+                message = exception.Message
+            });
+        }
     }
 }
 
@@ -105,6 +121,7 @@ public sealed class CreateListingRequest
     public string? Condition { get; init; }
     public ListingLocationRequest? Location { get; init; }
     public ListingSellerRequest? Seller { get; init; }
+    public Guid? PrimaryImageId { get; init; }
 }
 
 public sealed class ListingLocationRequest

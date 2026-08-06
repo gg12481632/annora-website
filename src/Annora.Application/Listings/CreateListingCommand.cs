@@ -8,4 +8,5 @@ public sealed record CreateListingCommand(
     string Condition,
     string PostalCode,
     string City,
-    string SellerEmail);
+    string SellerEmail,
+    Guid? PrimaryImageId);
