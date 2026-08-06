@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="da">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta
-        name="description"
-        content="Se annonce på Annora."
-    >
+    <meta name="description" content="Se annonce på Annora.">
 
     <title>Annonce – Annora</title>
 
@@ -51,8 +49,12 @@
 
         <article id="listing-content" class="listing-detail" hidden>
             <section class="listing-gallery">
-                <div class="main-image-placeholder">
-                    <span>Intet billede endnu</span>
+                <div class="main-image-container">
+                    <img id="main-image" class="main-image" alt="" hidden>
+
+                    <div id="main-image-placeholder" class="main-image-placeholder">
+                        <span>Intet billede endnu</span>
+                    </div>
                 </div>
             </section>
 
@@ -103,4 +105,5 @@
         <p>&copy; <span id="year"></span> Annora</p>
     </footer>
 </body>
+
 </html>

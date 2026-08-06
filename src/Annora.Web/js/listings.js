@@ -1,4 +1,5 @@
 "use strict";
+import { config } from "./config.js";
 import { getListings } from "./api.js";
 
 const container = document.getElementById("listings-container");
@@ -98,6 +99,28 @@ function renderListings() {
         const price = fragment.querySelector(".listing-price");
         const location =
             fragment.querySelector(".listing-location");
+        const image =
+            fragment.querySelector(".listing-image");
+
+        const imagePlaceholder =
+            fragment.querySelector(
+                ".listing-image-placeholder"
+            );
+
+        if (listing.primaryImageId) {
+            image.src =
+                `${config.apiBaseUrl}/images/` +
+                encodeURIComponent(listing.primaryImageId);
+
+            image.alt = listing.title;
+            image.hidden = false;
+            imagePlaceholder.hidden = true;
+
+            image.addEventListener("error", () => {
+                image.hidden = true;
+                imagePlaceholder.hidden = false;
+            });
+        }
 
         link.href =
             `listing.html?id=${encodeURIComponent(listing.id)}`;

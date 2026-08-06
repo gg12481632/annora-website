@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="da">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta
-        name="description"
-        content="Se brugte varer til salg på Annora."
-    >
+    <meta name="description" content="Se brugte varer til salg på Annora.">
 
     <title>Annoncer – Annora</title>
 
@@ -53,11 +51,7 @@
             <div class="filter-field">
                 <label for="search">Søg</label>
 
-                <input
-                    id="search"
-                    type="search"
-                    placeholder="Søg i titel eller beskrivelse"
-                >
+                <input id="search" type="search" placeholder="Søg i titel eller beskrivelse">
             </div>
 
             <div class="filter-field">
@@ -95,19 +89,18 @@
             <p id="status-message">Henter annoncer…</p>
         </section>
 
-        <section
-            id="listings-container"
-            class="listings-grid"
-            aria-label="Annoncer"
-        ></section>
+        <section id="listings-container" class="listings-grid" aria-label="Annoncer"></section>
 
         <template id="listing-template">
             <article class="listing-card">
                 <a class="listing-link" href="#">
-                    <div class="listing-image-placeholder">
-                        <span>Intet billede</span>
-                    </div>
+                    <div class="listing-image-container">
+                        <img class="listing-image" alt="" loading="lazy" hidden>
 
+                        <div class="listing-image-placeholder">
+                            <span>Intet billede</span>
+                        </div>
+                    </div>
                     <div class="listing-content">
                         <div class="listing-meta">
                             <span class="listing-category"></span>
@@ -133,4 +126,5 @@
         <p>&copy; <span id="year"></span> Annora</p>
     </footer>
 </body>
+
 </html>

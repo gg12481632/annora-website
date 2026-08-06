@@ -1,5 +1,6 @@
 "use strict";
 
+import { config } from "./config.js";
 import { getListing } from "./api.js";
 
 const loadingState = document.getElementById("loading-state");
@@ -17,6 +18,13 @@ const priceElement = document.getElementById("price");
 const conditionElement = document.getElementById("condition");
 const locationElement = document.getElementById("location");
 const descriptionElement = document.getElementById("description");
+const mainImage =
+    document.getElementById("main-image");
+
+const mainImagePlaceholder =
+    document.getElementById(
+        "main-image-placeholder"
+    );
 
 async function loadListing() {
     const parameters = new URLSearchParams(window.location.search);
@@ -69,6 +77,21 @@ function renderListing(listing) {
     loadingState.hidden = true;
     errorState.hidden = true;
     listingContent.hidden = false;
+
+    if (listing.primaryImageId) {
+        mainImage.src =
+            `${config.apiBaseUrl}/images/` +
+            encodeURIComponent(listing.primaryImageId);
+
+        mainImage.alt = listing.title;
+        mainImage.hidden = false;
+        mainImagePlaceholder.hidden = true;
+
+        mainImage.addEventListener("error", () => {
+            mainImage.hidden = true;
+            mainImagePlaceholder.hidden = false;
+        });
+    }
 }
 
 function showError(message) {

@@ -156,3 +156,34 @@
         grid-template-columns: 1fr;
     }
 }
+
+.main-image-container {
+    position: relative;
+    min-height: 500px;
+    background: #edf3ef;
+}
+
+.main-image {
+    display: block;
+    width: 100%;
+    min-height: 500px;
+    max-height: 750px;
+    object-fit: contain;
+    background: #edf3ef;
+}
+
+.main-image-placeholder {
+    display: grid;
+    place-items: center;
+    position: absolute;
+    inset: 0;
+    min-height: 500px;
+    color: var(--muted);
+    background:
+        linear-gradient(
+            135deg,
+            #edf3ef,
+            #dfeae3
+        );
+    font-weight: 700;
+}
