@@ -16,17 +16,8 @@
     <script type="module" src="js/listings.js"></script>
 </head>
 
-<body>
-    <header class="site-header">
-        <a class="logo" href="index.html">Annora</a>
-
-        <nav aria-label="Hovednavigation">
-            <a href="index.html">Forside</a>
-            <a href="listings.html" aria-current="page">Annoncer</a>
-            <a href="create.html">Opret annonce</a>
-        </nav>
-    </header>
-
+<body data-page="listings">
+    <header id="site-header" class="site-header"></header>
     <main class="listings-page">
         <section class="listings-introduction">
             <p class="eyebrow">Brugte ting med mere liv i sig</p>
@@ -122,9 +113,7 @@
         </template>
     </main>
 
-    <footer>
-        <p>&copy; <span id="year"></span> Annora</p>
-    </footer>
+    <footer id="site-footer" class="site-footer"></footer>
 </body>
 
 </html>

@@ -16,17 +16,8 @@
     <script type="module" src="js/listing.js"></script>
 </head>
 
-<body>
-    <header class="site-header">
-        <a class="logo" href="index.html">Annora</a>
-
-        <nav aria-label="Hovednavigation">
-            <a href="index.html">Forside</a>
-            <a href="listings.html">Annoncer</a>
-            <a href="create.html">Opret annonce</a>
-        </nav>
-    </header>
-
+<body data-page="listings">
+    <header id="site-header" class="site-header"></header>
     <main class="listing-page">
         <nav class="breadcrumb" aria-label="Brødkrummer">
             <a href="listings.html">Annoncer</a>
@@ -101,9 +92,7 @@
         </article>
     </main>
 
-    <footer>
-        <p>&copy; <span id="year"></span> Annora</p>
-    </footer>
+    <footer id="site-footer" class="site-footer"></footer>
 </body>
 
 </html>
