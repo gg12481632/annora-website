@@ -1,5 +1,7 @@
+using api.Authentication;
 using Annora.Application.Images;
-using Annora.Infrastructure.Images;using Annora.Application.Listings;
+using Annora.Infrastructure.Images;
+using Annora.Application.Listings;
 using Annora.Infrastructure.Listings;
 using Annora.Infrastructure.Storage;
 using Microsoft.Azure.Functions.Worker.Builder;
@@ -32,6 +34,10 @@ builder.Services.AddSingleton<
 builder.Services.AddSingleton<
     IImageUploadStorage,
     ImageUploadStorage>();
+
+builder.Services.AddSingleton<
+    ICurrentUserAccessor,
+    CurrentUserAccessor>();
 
 builder.Services.AddScoped<CreateListingHandler>();
 builder.Services.AddScoped<GetListingsHandler>();
