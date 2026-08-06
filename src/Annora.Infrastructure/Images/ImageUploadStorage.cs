@@ -122,4 +122,73 @@ public sealed class ImageUploadStorage : IImageUploadStorage
                 parts => parts[1],
                 StringComparer.OrdinalIgnoreCase);
     }
+
+public async Task CompleteUploadAsync(
+    Guid imageId,
+    CancellationToken cancellationToken = default)
+{
+    var rowKey = imageId.ToString("N");
+
+    var imageResponse =
+        await _tableClient.GetEntityIfExistsAsync<ImageTableEntity>(
+            partitionKey: "image",
+            rowKey: rowKey,
+            cancellationToken: cancellationToken);
+
+    if (!imageResponse.HasValue)
+    {
+        throw new KeyNotFoundException(
+            $"Image '{imageId}' was not found.");
+    }
+
+    var image = imageResponse.Value;
+
+    if (!string.Equals(
+        image.Status,
+        "Pending",
+        StringComparison.OrdinalIgnoreCase))
+    {
+        throw new InvalidOperationException(
+            $"Image '{imageId}' is not pending.");
+    }
+
+    var blobClient =
+        _containerClient.GetBlobClient(image.BlobName);
+
+    var exists = await blobClient.ExistsAsync(
+        cancellationToken);
+
+    if (!exists.Value)
+    {
+        throw new InvalidOperationException(
+            "The uploaded blob does not exist.");
+    }
+
+    var properties = await blobClient.GetPropertiesAsync(
+        cancellationToken: cancellationToken);
+
+    if (properties.Value.ContentLength != image.Size)
+    {
+        throw new InvalidOperationException(
+            "The uploaded file size does not match the requested size.");
+    }
+
+    if (!string.Equals(
+        properties.Value.ContentType,
+        image.ContentType,
+        StringComparison.OrdinalIgnoreCase))
+    {
+        throw new InvalidOperationException(
+            "The uploaded content type does not match the requested type.");
+    }
+
+    image.Status = "Uploaded";
+    image.UploadedAt = DateTimeOffset.UtcNow;
+
+    await _tableClient.UpdateEntityAsync(
+        image,
+        image.ETag,
+        TableUpdateMode.Replace,
+        cancellationToken);
+}
 }

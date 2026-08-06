@@ -61,6 +61,29 @@ resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2023-05-01'
       enabled: true
       days: 7
     }
+
+    cors: {
+      corsRules: [
+        {
+          allowedOrigins: [
+            'http://127.0.0.1:8081'
+            'https://agreeable-sea-06745e503.7.azurestaticapps.net'
+          ]
+          allowedMethods: [
+            'PUT'
+            'OPTIONS'
+          ]
+          allowedHeaders: [
+            '*'
+          ]
+          exposedHeaders: [
+            'ETag'
+            'x-ms-request-id'
+          ]
+          maxAgeInSeconds: 3600
+        }
+      ]
+    }
   }
 }
 

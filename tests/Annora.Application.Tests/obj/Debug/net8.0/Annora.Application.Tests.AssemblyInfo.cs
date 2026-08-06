@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Annora.Application.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c90523bb641b7b8d5c739016a1f7c02844515b68")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+86e415a892c8842b9bfc110a4ab51268d8b250f6")]
 [assembly: System.Reflection.AssemblyProductAttribute("Annora.Application.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Annora.Application.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
