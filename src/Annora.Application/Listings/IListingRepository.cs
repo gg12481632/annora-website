@@ -14,4 +14,8 @@ public interface IListingRepository
     Task<Listing?> GetByIdAsync(
         Guid id,
         CancellationToken cancellationToken = default);
+
+    Task<IReadOnlyCollection<Listing>> GetByOwnerIdAsync(
+        string ownerId,
+        CancellationToken cancellationToken = default);
 }

@@ -93,4 +93,27 @@ public sealed class TableListingRepository : IListingRepository
 
         return response.Value.ToDomain();
     }
+
+    public async Task<IReadOnlyCollection<Listing>>
+        GetByOwnerIdAsync(
+            string ownerId,
+            CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(ownerId))
+        {
+            return Array.Empty<Listing>();
+        }
+
+        var listings = new List<Listing>();
+
+        await foreach (
+            var entity in _tableClient.QueryAsync<ListingTableEntity>(
+                filter: entity => entity.OwnerId == ownerId,
+                cancellationToken: cancellationToken))
+        {
+            listings.Add(entity.ToDomain());
+        }
+
+        return listings;
+    }
 }
