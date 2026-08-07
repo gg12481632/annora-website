@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Mine annoncer – Annora</title>
+
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/listings.css">
+
+    <script
+        type="module"
+        src="js/site.js">
+    </script>
+
+    <script
+        type="module"
+        src="js/pages/my-listings.js">
+    </script>
+</head>
+
+<body data-nav="my-listings">
+    <header
+        id="site-header"
+        class="site-header"
+    ></header>
+
+    <main class="listings-page">
+        <section class="listings-introduction">
+            <div class="heading-row">
+                <div>
+                    <h1>Mine annoncer</h1>
+
+                    <p>
+                        Her kan du se de annoncer,
+                        du selv har oprettet.
+                    </p>
+                </div>
+
+                <a
+                    class="button"
+                    href="create.html"
+                >
+                    Opret annonce
+                </a>
+            </div>
+        </section>
+
+        <section
+            id="listings-status"
+            class="listings-status"
+            aria-live="polite"
+        >
+            <p>Henter dine annoncer...</p>
+        </section>
+
+        <section
+            id="listings-container"
+            class="listings-grid"
+        ></section>
+    </main>
+
+    <template id="listing-template">
+        <article class="listing-card">
+            <a class="listing-link">
+                <div class="listing-image-container">
+                    <img
+                        class="listing-image"
+                        alt=""
+                        loading="lazy"
+                        hidden
+                    >
+
+                    <div
+                        class="listing-image-placeholder"
+                    >
+                        <span>Intet billede</span>
+                    </div>
+                </div>
+
+                <div class="listing-content">
+                    <div class="listing-meta">
+                        <span class="listing-category"></span>
+
+                        <time class="listing-date"></time>
+                    </div>
+
+                    <h2 class="listing-title"></h2>
+
+                    <p class="listing-description"></p>
+
+                    <div class="listing-footer">
+                        <strong class="listing-price"></strong>
+
+                        <span class="listing-location"></span>
+                    </div>
+                </div>
+            </a>
+        </article>
+    </template>
+
+    <footer
+        id="site-footer"
+        class="site-footer"
+    ></footer>
+</body>
+</html>
